@@ -2,7 +2,7 @@ package polydungeons;
 
 import net.fabricmc.api.ModInitializer;
 
-public class Polydungeons implements ModInitializer {
+public class PolyDungeons implements ModInitializer {
     @Override
     public void onInitialize() {
 

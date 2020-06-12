@@ -2,11 +2,11 @@
   "schemaVersion": 1,
   "id": "polydungeons",
   "version": "${version}",
-  "name": "Polydungeons",
+  "name": "PolyDungeons",
   "description": "ModFest 1.16",
   "authors": [
     "Earthcomputer",
-    "soap",
+    "SoapyXM",
     "Ashley",
     "DiamondMCPro"
   ],
@@ -18,7 +18,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "polydungeons.Polydungeons"
+      "polydungeons.PolyDungeons"
     ],
     "client": [
       "polydungeons.client.PolyDungeonsClient"
