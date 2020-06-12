@@ -17,5 +17,6 @@ public class PolyDungeons implements ModInitializer {
         PolyDungeonsEntities.registerAll();
         PolyDungeonsSoundEvents.registerAll();
         PolyDungeonsServerNetwork.registerPackets();
+        PolyDungeonsEvents.registerAll();
     }
 }
