@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "polydungeons",
+  "version": "${version}",
+  "name": "Polydungeons",
+  "description": "ModFest 1.16",
+  "authors": [
+    "Earthcomputer",
+    "soap",
+    "Ashley",
+    "DiamondMCPro"
+  ],
+  "contact": {
+    "sources": "https://github.com/Earthcomputer/PolyDungeons"
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/polydungeons/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "polydungeons.Polydungeons"
+    ],
+    "client": [
+      "polydungeons.client.PolyDungeonsClient"
+    ]
+  },
+  "mixins": [
+    "polydungeons.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.8.7+build.201",
+    "fabric": "*",
+    "minecraft": "1.16-rc.4"
+  }
+}
