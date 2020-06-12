@@ -20,9 +20,4 @@ public class HardenedBlock extends Block {
                 .requiresTool().strength(50.0F, 1200.0F)
                 .sounds(BlockSoundGroup.NETHER_BRICKS));
     }
-
-    @Override
-    public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
-        return Collections.singletonList(new ItemStack(this));
-    }
 }
