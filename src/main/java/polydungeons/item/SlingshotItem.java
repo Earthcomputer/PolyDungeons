@@ -8,6 +8,7 @@ import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.RangedWeaponItem;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -15,6 +16,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 import polydungeons.entity.SlingshotProjectileEntity;
+import polydungeons.sound.PolyDungeonsSoundEvents;
 
 import java.util.function.Predicate;
 
@@ -72,7 +74,7 @@ public class SlingshotItem extends RangedWeaponItem {
             stack.damage(1, player, p -> p.sendToolBreakStatus(player.getActiveHand()));
         }
 
-        // TODO: slingshot shoot sound
+        world.playSound(null, player.getX(), player.getY(), player.getZ(), PolyDungeonsSoundEvents.SLINGSHOT, SoundCategory.PLAYERS, 1, 1f / (RANDOM.nextFloat() * 0.4f + 1.2f) + pullProgress * 0.5f);
 
         if (!infinity) {
             ammo.decrement(1);
