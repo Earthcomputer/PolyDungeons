@@ -1,4 +1,4 @@
-package polydungeons.item.items;
+package polydungeons.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;

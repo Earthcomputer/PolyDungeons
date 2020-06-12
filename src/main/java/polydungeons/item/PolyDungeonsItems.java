@@ -6,8 +6,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 import polydungeons.PolyDungeons;
-import polydungeons.item.items.AtlatlItem;
-import polydungeons.item.items.SpearItem;
 
 public class PolyDungeonsItems {
 
