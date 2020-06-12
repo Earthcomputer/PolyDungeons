@@ -7,6 +7,10 @@ repositories {
         name = "Spinnery"
         url = "https://dl.bintray.com/spinnery/Spinnery"
     }
+    maven {
+        name = "Earthcomputer Mods"
+        url = "https://dl.bintray.com/earthcomputer/mods"
+    }
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -28,6 +32,9 @@ dependencies {
 
     modCompile "com.github.vini2003:spinnery:${project.spinnery_version}"
     include "com.github.vini2003:spinnery:${project.spinnery_version}"
+
+    modCompile "net.earthcomputer:libstructure:${project.libstructure_version}"
+    include "net.earthcomputer:libstructure:${project.libstructure_version}"
 }
 
 processResources {

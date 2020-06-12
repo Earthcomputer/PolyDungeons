@@ -30,6 +30,8 @@
   "depends": {
     "fabricloader": ">=0.8.7+build.201",
     "fabric": "*",
-    "minecraft": "1.16-rc.4"
+    "minecraft": "1.16-rc.4",
+    "libstructure": ">=1.0",
+    "spinnery": ">=3.0.37"
   }
 }
