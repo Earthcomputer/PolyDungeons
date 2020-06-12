@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 import polydungeons.block.PolyDungeonsBlocks;
 import polydungeons.entity.PolyDungeonsEntities;
 import polydungeons.item.PolyDungeonsItems;
+import polydungeons.network.PolyDungeonsServerNetwork;
 
 public class PolyDungeons implements ModInitializer {
     public static final String MODID = "polydungeons";
@@ -13,5 +14,6 @@ public class PolyDungeons implements ModInitializer {
         PolyDungeonsBlocks.registerAll();
         PolyDungeonsItems.registerAll();
         PolyDungeonsEntities.registerAll();
+        PolyDungeonsServerNetwork.registerPackets();
     }
 }
