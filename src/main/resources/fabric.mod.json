@@ -13,7 +13,7 @@
   "contact": {
     "sources": "https://github.com/Earthcomputer/PolyDungeons"
   },
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/polydungeons/icon.png",
   "environment": "*",
   "entrypoints": {
