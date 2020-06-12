@@ -20,6 +20,7 @@ public class PolyDungeonsBlocks {
     }
 
     public static void registerAll() {
-
+        HARDENED_RED_NETHER_BRICKS = registerBlock(new HardenedBlock(), "hardened_red_nether_bricks");
+        HARDENED_CRACKED_RED_NETHER_BRICKS = registerBlock(new HardenedBlock(), "hardened_cracked_red_nether_bricks");
     }
 }
