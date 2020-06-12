@@ -4,5 +4,13 @@
     "sounds": [
       "polydungeons:shoot"
     ]
+  },
+  "slingshot": {
+    "subtitle": "subtitles.polydungeons.slingshot",
+    "sounds": [
+      "polydungeons:slingshot1",
+      "polydungeons:slingshot2",
+      "polydungeons:slingshot3"
+    ]
   }
 }

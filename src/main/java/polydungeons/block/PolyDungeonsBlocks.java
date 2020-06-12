@@ -11,6 +11,8 @@ import polydungeons.item.PolyDungeonsItems;
 public class PolyDungeonsBlocks {
     public static HardenedBlock HARDENED_RED_NETHER_BRICKS;
     public static HardenedBlock HARDENED_CRACKED_RED_NETHER_BRICKS;
+    public static DungeonDoorBlock DUNGEON_DOOR;
+    public static DungeonDoorOpenerBlock DUNGEON_DOOR_OPENER;
 
     private static <T extends Block> T registerBlock(T block, String id) {
         Registry.register(Registry.BLOCK, new Identifier(PolyDungeons.MODID, id), block);
@@ -22,5 +24,7 @@ public class PolyDungeonsBlocks {
     public static void registerAll() {
         HARDENED_RED_NETHER_BRICKS = registerBlock(new HardenedBlock(), "hardened_red_nether_bricks");
         HARDENED_CRACKED_RED_NETHER_BRICKS = registerBlock(new HardenedBlock(), "hardened_cracked_red_nether_bricks");
+        DUNGEON_DOOR = registerBlock(new DungeonDoorBlock(), "dungeon_door");
+        DUNGEON_DOOR_OPENER = registerBlock(new DungeonDoorOpenerBlock(), "dungeon_door_opener");
     }
 }
