@@ -5,6 +5,7 @@ import polydungeons.block.PolyDungeonsBlocks;
 import polydungeons.entity.PolyDungeonsEntities;
 import polydungeons.item.PolyDungeonsItems;
 import polydungeons.sound.PolyDungeonsSoundEvents;
+import polydungeons.network.PolyDungeonsServerNetwork;
 
 public class PolyDungeons implements ModInitializer {
     public static final String MODID = "polydungeons";
@@ -15,5 +16,6 @@ public class PolyDungeons implements ModInitializer {
         PolyDungeonsItems.registerAll();
         PolyDungeonsEntities.registerAll();
         PolyDungeonsSoundEvents.registerAll();
+        PolyDungeonsServerNetwork.registerPackets();
     }
 }

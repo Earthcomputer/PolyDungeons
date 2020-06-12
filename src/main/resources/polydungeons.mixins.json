@@ -3,6 +3,8 @@
   "package": "polydungeons.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "EnchantmentHelperMixin",
+    "EnchantmentMixin"
   ],
   "client": [
   ],
