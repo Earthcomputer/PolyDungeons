@@ -10,7 +10,7 @@ import net.minecraft.util.registry.Registry;
 import polydungeons.PolyDungeons;
 
 public class PolyDungeonsEntities {
-    public static final EntityType<BlazingMechanicalEntity> TEST_ENTITY = Registry.register(
+    public static final EntityType<BlazingMechanicalEntity> BLAZING_MECHANICAL = Registry.register(
             Registry.ENTITY_TYPE,
             new Identifier(PolyDungeons.MODID, "blazing_mechanical"),
             FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, BlazingMechanicalEntity::new)
@@ -18,6 +18,6 @@ public class PolyDungeonsEntities {
     );
 
     public static void registerAll() {
-        FabricDefaultAttributeRegistry.register(TEST_ENTITY, BlazingMechanicalEntity.createMobAttributes());
+        FabricDefaultAttributeRegistry.register(BLAZING_MECHANICAL, BlazingMechanicalEntity.createBlazeAttributes());
     }
 }
