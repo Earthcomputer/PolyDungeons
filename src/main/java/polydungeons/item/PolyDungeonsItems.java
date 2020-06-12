@@ -5,7 +5,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import polydungeons.PolyDungeons;
-import polydungeons.item.items.FireworkGunItem;
 
 public class PolyDungeonsItems {
 

@@ -1,4 +1,4 @@
-package polydungeons.item.items;
+package polydungeons.item;
 
 import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.entity.LivingEntity;

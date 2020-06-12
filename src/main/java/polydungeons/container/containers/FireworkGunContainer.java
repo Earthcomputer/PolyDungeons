@@ -4,7 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
-import polydungeons.item.items.FireworkGunItem;
+import polydungeons.item.FireworkGunItem;
 import spinnery.common.container.BaseContainer;
 import spinnery.common.inventory.BaseInventory;
 import spinnery.widget.WAbstractWidget;
