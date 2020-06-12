@@ -26,6 +26,11 @@ public class PolyDungeonsEntities {
             FabricEntityTypeBuilder.create(SpawnGroup.MISC, AnchorEntity::new)
                     .dimensions(EntityDimensions.fixed(0.25f, 0.25f)).build()
     );
+    public static final EntityType<SpearEntity> SPEAR = register(
+            "spear",
+            FabricEntityTypeBuilder.<SpearEntity>create(SpawnGroup.MISC, SpearEntity::new)
+                    .dimensions(EntityDimensions.fixed(1f, 1f)).build()
+    );
 
     private static <T extends Entity> EntityType<T> register(String id, EntityType<T> entityType) {
         return Registry.register(Registry.ENTITY_TYPE, new Identifier(PolyDungeons.MODID, id), entityType);

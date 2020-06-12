@@ -19,6 +19,7 @@ public class EntityClientInit {
         register(PolyDungeonsEntities.BLAZING_MECHANICAL, BlazingMechanicalRenderer::new);
         register(PolyDungeonsEntities.ANCHOR, FloatingItemRenderer::new);
         EntityRendererRegistry.INSTANCE.register(PolyDungeonsEntities.SLINGSHOT_PROJECTILE, (dispatcher, context) -> new FlyingItemEntityRenderer<>(dispatcher, context.getItemRenderer()));
+        register(PolyDungeonsEntities.SPEAR, SpearRenderer::new);
     }
 
     private static void register(EntityType<?> entityType, Function<EntityRenderDispatcher, EntityRenderer<?>> rendererCreator) {

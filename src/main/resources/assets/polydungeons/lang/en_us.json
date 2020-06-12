@@ -1,5 +1,11 @@
 {
   "entity.polydungeons.slingshot_projectile": "Slingshot Projectile",
+  "entity.polydungeons.spear": "Spear",
 
-  "item.polydungeons.slingshot": "Slingshot"
+  "item.polydungeons.slingshot": "Slingshot",
+  "item.polydungeons.firework_launcher": "Firework Launcher",
+  "item.polydungeons.spear": "Spear",
+  "item.polydungeons.atlatl": "Atlatl",
+
+  "subtitles.polydungeons.shoot": "Gunshot"
 }

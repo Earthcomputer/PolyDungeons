@@ -15,11 +15,11 @@ import polydungeons.sound.PolyDungeonsSoundEvents;
 
 import java.util.function.Predicate;
 
-public class FireworkGunItem extends RangedWeaponItem implements Vanishable {
+public class FireworkLauncherItem extends RangedWeaponItem implements Vanishable {
 	public static final Identifier CONTAINER_ID = new Identifier(PolyDungeons.MODID, "firework_gun");
 
-	public FireworkGunItem() {
-		super(new Settings().rarity(Rarity.RARE).group(ItemGroup.COMBAT).maxCount(1));
+	public FireworkLauncherItem(Settings settings) {
+		super(settings);
 	}
 	@Override
 	public Predicate<ItemStack> getProjectiles() {
@@ -42,9 +42,9 @@ public class FireworkGunItem extends RangedWeaponItem implements Vanishable {
 		if (!world.isClient) {
 			FireworkRocketEntity rocket = new FireworkRocketEntity(world, projectile, shooter, shooter.getX(), shooter.getEyeY() - 0.15000000596046448D, shooter.getZ(), true);
 
-			Vec3d vec3d = shooter.getOppositeRotationVector(1.0F);
+			Vec3d vec3d = shooter.getOppositeRotationVector(1.0f);
 			Quaternion quaternion = new Quaternion(new Vector3f(vec3d), simulated, true);
-			Vec3d vec3d2 = shooter.getRotationVec(1.0F);
+			Vec3d vec3d2 = shooter.getRotationVec(1.0f);
 			Vector3f vector3f = new Vector3f(vec3d2);
 			vector3f.rotate(quaternion);
 			(rocket).setVelocity(vector3f.getX(), vector3f.getY(), vector3f.getZ(), speed, divergence);

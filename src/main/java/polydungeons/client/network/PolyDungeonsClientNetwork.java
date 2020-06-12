@@ -39,6 +39,8 @@ public class PolyDungeonsClientNetwork {
         int ownerId;
         if (entityType == PolyDungeonsEntities.SLINGSHOT_PROJECTILE) {
             ownerId = buf.readVarInt();
+        } else if (entityType == PolyDungeonsEntities.SPEAR) {
+            ownerId = buf.readVarInt();
         } else {
             ownerId = 0;
         }
