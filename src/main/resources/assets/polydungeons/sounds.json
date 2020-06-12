@@ -1,0 +1,8 @@
+{
+  "shoot": {
+    "subtitle": "subtitles.polydungeons.shoot",
+    "sounds": [
+      "polydungeons:shoot"
+    ]
+  }
+}

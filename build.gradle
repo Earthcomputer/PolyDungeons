@@ -2,6 +2,12 @@ plugins {
     id 'fabric-loom' version '0.4-SNAPSHOT'
     id 'maven-publish'
 }
+repositories {
+    maven {
+        name = "Spinnery"
+        url = "https://dl.bintray.com/spinnery/Spinnery"
+    }
+}
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
@@ -19,6 +25,9 @@ dependencies {
     modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
 
     modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    modCompile "com.github.vini2003:spinnery:${project.spinnery_version}"
+    include "com.github.vini2003:spinnery:${project.spinnery_version}"
 }
 
 processResources {
@@ -66,10 +75,6 @@ publishing {
             }
         }
     }
-
-    // select the repositories you want to publish to
     repositories {
-        // uncomment to publish to the local maven
-        // mavenLocal()
     }
 }
