@@ -1,4 +1,4 @@
-package polydungeons.item.items;
+package polydungeons.item;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,7 +9,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
-import polydungeons.item.PolyDungeonsItems;
 
 import java.util.function.Predicate;
 
