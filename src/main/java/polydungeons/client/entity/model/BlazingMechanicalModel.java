@@ -1,4 +1,4 @@
-package polydungeons.client.entity;
+package polydungeons.client.entity.model;
 
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
@@ -6,6 +6,7 @@ import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.entity.Entity;
+import polydungeons.client.entity.EntityUtils;
 import polydungeons.entity.BlazingMechanicalEntity;
 
 public class BlazingMechanicalModel extends EntityModel<BlazingMechanicalEntity> {

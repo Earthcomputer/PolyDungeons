@@ -1,10 +1,11 @@
-package polydungeons.client.entity;
+package polydungeons.client.entity.renderer;
 
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import polydungeons.PolyDungeons;
+import polydungeons.client.entity.model.BlazingMechanicalModel;
 import polydungeons.entity.BlazingMechanicalEntity;
 
 public class BlazingMechanicalRenderer extends MobEntityRenderer<BlazingMechanicalEntity, BlazingMechanicalModel> {

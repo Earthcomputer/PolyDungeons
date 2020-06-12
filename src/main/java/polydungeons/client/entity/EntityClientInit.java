@@ -7,6 +7,7 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.entity.EntityType;
+import polydungeons.client.entity.renderer.BlazingMechanicalRenderer;
 import polydungeons.entity.PolyDungeonsEntities;
 
 import java.util.function.Function;
