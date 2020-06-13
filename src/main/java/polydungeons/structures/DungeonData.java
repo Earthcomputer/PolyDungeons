@@ -39,19 +39,29 @@ public class DungeonData {
         // intuitive, right?
         ImmutableList<StructureProcessor> crackBlackstone = ImmutableList.of(
             new RuleStructureProcessor(
-                        ImmutableList.of(new StructureProcessorRule(
+                    ImmutableList.of(
+                            new StructureProcessorRule(
+                                new RandomBlockMatchRuleTest(Blocks.POLISHED_BLACKSTONE_BRICKS, 0.1F),
+                                AlwaysTrueRuleTest.INSTANCE,
+                                Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS.getDefaultState()
+                            ),
+                            new StructureProcessorRule(
                                     new RandomBlockMatchRuleTest(Blocks.POLISHED_BLACKSTONE, 0.1F),
                                     AlwaysTrueRuleTest.INSTANCE,
-                                    Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS.getDefaultState()
-                        )))
+                                    Blocks.BLACKSTONE.getDefaultState()
+                            )
+                    ))
         );
 
         registerPool("dungeon/rooms", "empty", Arrays.asList(
-                new Pair<>(new SinglePoolElement("dungeon/rooms/5x5_chest", crackBlackstone), 1)
+                new Pair<>(new SinglePoolElement("polydungeons:dungeon/rooms/room_7x7_empty", crackBlackstone), 1),
+                new Pair<>(new SinglePoolElement("polydungeons:dungeon/rooms/room_14x7_empty", crackBlackstone), 1),
+                new Pair<>(new SinglePoolElement("polydungeons:dungeon/rooms/room_14x14_empty", crackBlackstone), 1),
+                new Pair<>(new SinglePoolElement("polydungeons:dungeon/halls/hall_7x7_empty", crackBlackstone), 8)
         ));
 
-        registerPool("dungeon/halls", "empty", Arrays.asList(
-                new Pair<>(new SinglePoolElement("dungeon/halls/10_3x3", crackBlackstone), 1)
-        ));
+        /*registerPool("dungeon/halls", "empty", Arrays.asList(
+
+        ));*/
     }
 }
