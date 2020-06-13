@@ -39,11 +39,11 @@ public class SplatEntityRenderer extends EntityRenderer<SplatEntity> {
 
         // apply direction
         switch (entity.getDirection()) {
-            case DOWN:
+            case UP:
             default:
                 // already good
                 break;
-            case UP:
+            case DOWN:
                 matrices.multiply(new Quaternion(Vector3f.NEGATIVE_X, 180, true));
                 break;
             case WEST:
