@@ -7,10 +7,11 @@ import net.fabricmc.fabric.api.network.PacketContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.registry.Registry;
 import polydungeons.entity.PolyDungeonsEntities;
-import polydungeons.entity.SlingshotProjectileEntity;
+import polydungeons.entity.SplatEntity;
 import polydungeons.network.PolyDungeonsPackets;
 
 import java.util.UUID;
@@ -19,6 +20,7 @@ import java.util.UUID;
 public class PolyDungeonsClientNetwork {
     public static void registerPackets() {
         ClientSidePacketRegistry.INSTANCE.register(PolyDungeonsPackets.CLIENTBOUND_SPAWN_ENTITY, PolyDungeonsClientNetwork::onSpawnEntity);
+        ClientSidePacketRegistry.INSTANCE.register(PolyDungeonsPackets.CLIENTBOUND_SPLAT_REMAINING_TICKS, PolyDungeonsClientNetwork::onSplatRemainingTicks);
     }
 
     private static void onSpawnEntity(PacketContext context, PacketByteBuf buf) {
@@ -44,6 +46,12 @@ public class PolyDungeonsClientNetwork {
         } else {
             ownerId = 0;
         }
+        int remainingTicks;
+        if (entityType == PolyDungeonsEntities.SPLAT) {
+            remainingTicks = buf.readVarInt();
+        } else {
+            remainingTicks = 0;
+        }
 
         context.getTaskQueue().execute(() -> {
             ClientWorld world = (ClientWorld) context.getPlayer().world;
@@ -51,11 +59,14 @@ public class PolyDungeonsClientNetwork {
             Entity entity = entityType.create(world);
             if (entity != null) {
                 // custom data
-                if (entityType == PolyDungeonsEntities.SLINGSHOT_PROJECTILE) {
+                if (entityType == PolyDungeonsEntities.SLINGSHOT_PROJECTILE || entityType == PolyDungeonsEntities.SPEAR) {
                     Entity owner = world.getEntityById(ownerId);
                     if (owner != null) {
-                        ((SlingshotProjectileEntity) entity).setOwner(owner);
+                        ((PersistentProjectileEntity) entity).setOwner(owner);
                     }
+                }
+                if (entityType == PolyDungeonsEntities.SPLAT) {
+                    ((SplatEntity) entity).setRemainingTicks(remainingTicks);
                 }
 
                 // normal data
@@ -72,6 +83,17 @@ public class PolyDungeonsClientNetwork {
 
                 // spawn entity
                 world.addEntity(entityId, entity);
+            }
+        });
+    }
+
+    private static void onSplatRemainingTicks(PacketContext context, PacketByteBuf buf) {
+        int entityId = buf.readVarInt();
+        int remainingTicks = buf.readVarInt();
+        context.getTaskQueue().execute(() -> {
+            Entity entity = context.getPlayer().world.getEntityById(entityId);
+            if (entity instanceof SplatEntity) {
+                ((SplatEntity) entity).setRemainingTicks(remainingTicks);
             }
         });
     }

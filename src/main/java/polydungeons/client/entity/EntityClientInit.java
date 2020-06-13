@@ -9,6 +9,8 @@ import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.entity.EntityType;
 import polydungeons.client.entity.renderer.BlazingMechanicalRenderer;
 import polydungeons.client.entity.renderer.FloatingItemRenderer;
+import polydungeons.client.entity.renderer.SpearRenderer;
+import polydungeons.client.entity.renderer.SplatEntityRenderer;
 import polydungeons.entity.PolyDungeonsEntities;
 
 import java.util.function.Function;
@@ -20,6 +22,7 @@ public class EntityClientInit {
         register(PolyDungeonsEntities.ANCHOR, FloatingItemRenderer::new);
         EntityRendererRegistry.INSTANCE.register(PolyDungeonsEntities.SLINGSHOT_PROJECTILE, (dispatcher, context) -> new FlyingItemEntityRenderer<>(dispatcher, context.getItemRenderer()));
         register(PolyDungeonsEntities.SPEAR, SpearRenderer::new);
+        register(PolyDungeonsEntities.SPLAT, SplatEntityRenderer::new);
     }
 
     private static void register(EntityType<?> entityType, Function<EntityRenderDispatcher, EntityRenderer<?>> rendererCreator) {

@@ -7,5 +7,7 @@
   "item.polydungeons.spear": "Spear",
   "item.polydungeons.atlatl": "Atlatl",
 
-  "subtitles.polydungeons.shoot": "Gunshot"
+  "subtitles.polydungeons.shoot": "Gunshot",
+  "subtitles.polydungeons.slingshot": "Slingshot Fires",
+  "subtitles.polydungeons.splat": "Splat"
 }

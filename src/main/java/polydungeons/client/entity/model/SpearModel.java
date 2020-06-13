@@ -1,4 +1,4 @@
-package polydungeons.client.entity;
+package polydungeons.client.entity.model;
 
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.ModelPart;
