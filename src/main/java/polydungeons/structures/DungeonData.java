@@ -52,16 +52,16 @@ public class DungeonData {
                             )
                     ))
         );
+        registerPool("dungeon/caps", "empty", Arrays.asList(
+                new Pair<>(new SinglePoolElement("polydungeons:dungeon/caps/cap", crackBlackstone), 1),
+                new Pair<>(new SinglePoolElement("polydungeons:dungeon/caps/small_cap", crackBlackstone), 1)
+        ));
 
         registerPool("dungeon/rooms", "empty", Arrays.asList(
                 new Pair<>(new SinglePoolElement("polydungeons:dungeon/rooms/room_7x7_empty", crackBlackstone), 1),
                 new Pair<>(new SinglePoolElement("polydungeons:dungeon/rooms/room_14x7_empty", crackBlackstone), 1),
-                new Pair<>(new SinglePoolElement("polydungeons:dungeon/rooms/room_14x14_empty", crackBlackstone), 1),
+                new Pair<>(new SinglePoolElement("polydungeons:dungeon/rooms/staircase", crackBlackstone), 1),
                 new Pair<>(new SinglePoolElement("polydungeons:dungeon/halls/hall_7x7_empty", crackBlackstone), 8)
         ));
-
-        /*registerPool("dungeon/halls", "empty", Arrays.asList(
-
-        ));*/
     }
 }
