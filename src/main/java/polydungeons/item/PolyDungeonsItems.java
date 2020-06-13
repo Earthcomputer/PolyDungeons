@@ -18,6 +18,8 @@ public class PolyDungeonsItems {
     public static SpearItem SPEAR;
     public static AtlatlItem ATLATL;
 
+    public static JigsawDebugItem JIGSAW_DEBUG;
+
     public static <T extends Item> T registerItem(T item, String id) {
         Registry.register(Registry.ITEM, new Identifier(PolyDungeons.MODID, id), item);
         return item;
@@ -31,5 +33,7 @@ public class PolyDungeonsItems {
         SPEAR = registerItem(new SpearItem(new Item.Settings().group(ItemGroup.COMBAT)), "spear");
         ATLATL = registerItem(new AtlatlItem(new Item.Settings().maxCount(1).rarity(Rarity.RARE).group(ItemGroup.COMBAT)), "atlatl");
         ANCHOR = registerItem(new AnchorItem(), "anchor");
+
+        JIGSAW_DEBUG = registerItem(new JigsawDebugItem(), "jigsaw_debug_stick");
     }
 }
