@@ -1,4 +1,4 @@
-package polydungeons.client.entity;
+package polydungeons.client.entity.renderer;
 
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumer;
@@ -11,6 +11,7 @@ import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import polydungeons.PolyDungeons;
+import polydungeons.client.entity.model.SpearModel;
 import polydungeons.entity.SpearEntity;
 
 public class SpearRenderer extends EntityRenderer<SpearEntity> {

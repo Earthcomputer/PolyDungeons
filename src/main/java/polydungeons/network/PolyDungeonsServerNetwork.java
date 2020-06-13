@@ -35,4 +35,11 @@ public class PolyDungeonsServerNetwork {
         extraData.accept(buf);
         return ServerSidePacketRegistry.INSTANCE.toPacket(PolyDungeonsPackets.CLIENTBOUND_SPAWN_ENTITY, buf);
     }
+
+    public static Packet<?> splatRemainingTicks(Entity entity, int remainingTicks) {
+        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+        buf.writeVarInt(entity.getEntityId());
+        buf.writeVarInt(remainingTicks);
+        return ServerSidePacketRegistry.INSTANCE.toPacket(PolyDungeonsPackets.CLIENTBOUND_SPLAT_REMAINING_TICKS, buf);
+    }
 }

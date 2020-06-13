@@ -12,5 +12,11 @@
       "polydungeons:slingshot2",
       "polydungeons:slingshot3"
     ]
+  },
+  "splat": {
+    "subtitle": "subtitles.polydungeons.splat",
+    "sounds": [
+      "polydungeons:splat"
+    ]
   }
 }

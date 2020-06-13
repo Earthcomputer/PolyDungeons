@@ -7,6 +7,7 @@ import polydungeons.PolyDungeons;
 public class PolyDungeonsSoundEvents {
 	public static final SoundEvent SHOOT = register("shoot");
 	public static final SoundEvent SLINGSHOT = register("slingshot");
+	public static final SoundEvent SPLAT = register("splat");
 
 	private static SoundEvent register(String id) {
 		Identifier identifier = new Identifier(PolyDungeons.MODID, id);

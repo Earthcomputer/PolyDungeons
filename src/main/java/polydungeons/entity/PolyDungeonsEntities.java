@@ -31,6 +31,11 @@ public class PolyDungeonsEntities {
             FabricEntityTypeBuilder.<SpearEntity>create(SpawnGroup.MISC, SpearEntity::new)
                     .dimensions(EntityDimensions.fixed(1f, 1f)).build()
     );
+    public static final EntityType<SplatEntity> SPLAT = register(
+            "splat",
+            FabricEntityTypeBuilder.<SplatEntity>create(SpawnGroup.MISC, SplatEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.5f, 0.5f)).build()
+    );
 
     private static <T extends Entity> EntityType<T> register(String id, EntityType<T> entityType) {
         return Registry.register(Registry.ENTITY_TYPE, new Identifier(PolyDungeons.MODID, id), entityType);
