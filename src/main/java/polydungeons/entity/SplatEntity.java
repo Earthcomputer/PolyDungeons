@@ -19,7 +19,11 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import polydungeons.network.PolyDungeonsServerNetwork;
 
+import java.util.UUID;
+
 public class SplatEntity extends Entity {
+    public static final UUID SPLAT_SLOWDOWN_UUID = UUID.fromString("da76f33a-6e3d-4f46-873a-0133ad874050");
+
     private static final TrackedData<Boolean> FIERY = DataTracker.registerData(SplatEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Direction> DIRECTION = DataTracker.registerData(SplatEntity.class, TrackedDataHandlerRegistry.FACING);
 
