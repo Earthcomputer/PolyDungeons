@@ -101,6 +101,11 @@ public class DungeonData {
                                     new RandomBlockMatchRuleTest(Blocks.POLISHED_BLACKSTONE, 0.1F),
                                     AlwaysTrueRuleTest.INSTANCE,
                                     Blocks.BLACKSTONE.getDefaultState()
+                            ),
+                            new StructureProcessorRule(
+                                    new RandomBlockMatchRuleTest(Blocks.SOUL_LANTERN, 0.1F),
+                                    AlwaysTrueRuleTest.INSTANCE,
+                                    Blocks.AIR.getDefaultState()
                             )
                     ))
         );
