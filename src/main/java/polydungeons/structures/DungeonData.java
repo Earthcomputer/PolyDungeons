@@ -104,10 +104,10 @@ public class DungeonData {
                             )
                     ))
         );
-        registerPool("dungeon/caps", "empty", Arrays.asList(
-                new Pair<>(new SinglePoolElement("polydungeons:dungeon/caps/cap", crackBlackstone), 1),
-                new Pair<>(new SinglePoolElement("polydungeons:dungeon/caps/small_cap", crackBlackstone), 1)
-        ));
+        registerPool("dungeon/caps", "empty",
+                singlePool("dungeon/caps/cap", crackBlackstone), 1,
+                singlePool("dungeon/caps/small_cap", crackBlackstone), 1
+        );
 
         registerPool("dungeon/rooms", "empty",
                 singlePool("dungeon/rooms/room_7x7_empty", crackBlackstone), 1,
