@@ -17,9 +17,13 @@ import net.minecraft.util.math.Quaternion;
 import polydungeons.PolyDungeons;
 import polydungeons.entity.SplatEntity;
 
+import java.util.Random;
+
 public class SplatEntityRenderer extends EntityRenderer<SplatEntity> {
     private static final Identifier SLIME_TEX = new Identifier(PolyDungeons.MODID, "textures/entity/splat_slime.png");
     private static final Identifier MAGMA_TEX = new Identifier(PolyDungeons.MODID, "textures/entity/splat_magma.png");
+
+    private final Random random = new Random();
 
     public SplatEntityRenderer(EntityRenderDispatcher dispatcher) {
         super(dispatcher);
@@ -52,8 +56,12 @@ public class SplatEntityRenderer extends EntityRenderer<SplatEntity> {
                 matrices.multiply(new Quaternion(Vector3f.NEGATIVE_X, 90, true));
         }
 
+        // random rotation
+        random.setSeed(entity.getUuid().getLeastSignificantBits());
+        matrices.multiply(new Quaternion(Vector3f.POSITIVE_Y, 360 * random.nextFloat(), true));
+
         // squish and scale
-        float overallScale = MathHelper.clamp(remainingTicks * 0.01f, 0.01f, 1f);
+        float overallScale = entity.getShrinkScale(tickDelta);
         float squishAngle = remainingTicks * 0.01f * (float) Math.PI;
         float squishMagnitude = MathHelper.cos(remainingTicks * 0.05f * (float)Math.PI);
         float squishX = 0.97f + 0.06f * squishMagnitude * MathHelper.cos(squishAngle);
@@ -61,7 +69,6 @@ public class SplatEntityRenderer extends EntityRenderer<SplatEntity> {
         matrices.scale(overallScale * squishX, 1, overallScale * squishZ);
 
         // actually render it
-        int overlay = OverlayTexture.getUv(0, false);
         VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(getTexture(entity)));
         Matrix4f modelMatrix = matrices.peek().getModel();
         Vector4f v00 = new Vector4f(-0.5f, 0f, -0.5f, 1f);
@@ -74,10 +81,10 @@ public class SplatEntityRenderer extends EntityRenderer<SplatEntity> {
         v11.transform(modelMatrix);
         Vector3f normal = new Vector3f(0, 1, 0);
         normal.transform(matrices.peek().getNormal());
-        buffer.vertex(v00.getX(), v00.getY(), v00.getZ(), 1f, 1f, 1f, 1f, 0, 0, overlay, light, normal.getX(), normal.getY(), normal.getZ());
-        buffer.vertex(v01.getX(), v01.getY(), v01.getZ(), 1f, 1f, 1f, 1f, 0, 1, overlay, light, normal.getX(), normal.getY(), normal.getZ());
-        buffer.vertex(v10.getX(), v10.getY(), v10.getZ(), 1f, 1f, 1f, 1f, 1, 1, overlay, light, normal.getX(), normal.getY(), normal.getZ());
-        buffer.vertex(v11.getX(), v11.getY(), v11.getZ(), 1f, 1f, 1f, 1f, 1, 0, overlay, light, normal.getX(), normal.getY(), normal.getZ());
+        buffer.vertex(v00.getX(), v00.getY(), v00.getZ(), 1f, 1f, 1f, 1f, 0, 0, OverlayTexture.DEFAULT_UV, light, normal.getX(), normal.getY(), normal.getZ());
+        buffer.vertex(v01.getX(), v01.getY(), v01.getZ(), 1f, 1f, 1f, 1f, 0, 1, OverlayTexture.DEFAULT_UV, light, normal.getX(), normal.getY(), normal.getZ());
+        buffer.vertex(v10.getX(), v10.getY(), v10.getZ(), 1f, 1f, 1f, 1f, 1, 1, OverlayTexture.DEFAULT_UV, light, normal.getX(), normal.getY(), normal.getZ());
+        buffer.vertex(v11.getX(), v11.getY(), v11.getZ(), 1f, 1f, 1f, 1f, 1, 0, OverlayTexture.DEFAULT_UV, light, normal.getX(), normal.getY(), normal.getZ());
 
         matrices.pop();
 

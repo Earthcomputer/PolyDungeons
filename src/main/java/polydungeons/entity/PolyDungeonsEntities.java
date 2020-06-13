@@ -19,7 +19,7 @@ public class PolyDungeonsEntities {
     public static final EntityType<SlingshotProjectileEntity> SLINGSHOT_PROJECTILE = register(
             "slingshot_projectile",
             FabricEntityTypeBuilder.<SlingshotProjectileEntity>create(SpawnGroup.MISC, SlingshotProjectileEntity::new)
-            .dimensions(EntityDimensions.fixed(0.25f, 0.25f)).build()
+            .dimensions(EntityDimensions.fixed(0.25f, 0.25f)).trackable(145, 3).build()
     );
     public static final EntityType<AnchorEntity> ANCHOR = register(
             "anchor",
@@ -34,7 +34,7 @@ public class PolyDungeonsEntities {
     public static final EntityType<SplatEntity> SPLAT = register(
             "splat",
             FabricEntityTypeBuilder.<SplatEntity>create(SpawnGroup.MISC, SplatEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.5f, 0.5f)).build()
+            .dimensions(EntityDimensions.fixed(0.5f, 0.5f)).trackable(145, 3).build()
     );
 
     private static <T extends Entity> EntityType<T> register(String id, EntityType<T> entityType) {

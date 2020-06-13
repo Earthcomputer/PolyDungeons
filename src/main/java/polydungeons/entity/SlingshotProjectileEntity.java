@@ -99,9 +99,9 @@ public class SlingshotProjectileEntity extends PersistentProjectileEntity implem
         if (!world.isClient) {
             SplatEntity splat = new SplatEntity(world);
             BlockPos splatBlockPos = blockHitResult.getBlockPos().offset(blockHitResult.getSide());
-            double splatX = blockHitResult.getSide().getAxis() == Direction.Axis.X ? splatBlockPos.getX() + 0.5 - 0.4375 * blockHitResult.getSide().getOffsetX() : getX();
-            double splatY = blockHitResult.getSide().getAxis() == Direction.Axis.Y ? splatBlockPos.getY() + 0.5 - 0.4375 * blockHitResult.getSide().getOffsetY() : getY();
-            double splatZ = blockHitResult.getSide().getAxis() == Direction.Axis.Z ? splatBlockPos.getZ() + 0.5 - 0.4375 * blockHitResult.getSide().getOffsetZ() : getZ();
+            double splatX = blockHitResult.getSide().getAxis() == Direction.Axis.X ? splatBlockPos.getX() + 0.5 - 0.4375 * blockHitResult.getSide().getOffsetX() : blockHitResult.getPos().x;
+            double splatY = blockHitResult.getSide().getAxis() == Direction.Axis.Y ? splatBlockPos.getY() + 0.5 - 0.4375 * blockHitResult.getSide().getOffsetY() : blockHitResult.getPos().y;
+            double splatZ = blockHitResult.getSide().getAxis() == Direction.Axis.Z ? splatBlockPos.getZ() + 0.5 - 0.4375 * blockHitResult.getSide().getOffsetZ() : blockHitResult.getPos().z;
             splat.updatePosition(splatX, splatY, splatZ);
             splat.setDirection(blockHitResult.getSide());
             splat.setFiery(isFiery());
