@@ -8,8 +8,8 @@ import polydungeons.PolyDungeons;
 import polydungeons.client.entity.model.BlazingMechanicalModel;
 import polydungeons.entity.BlazingMechanicalEntity;
 
-public class BlazingMechanicalRenderer extends MobEntityRenderer<BlazingMechanicalEntity, BlazingMechanicalModel> {
-    public BlazingMechanicalRenderer(EntityRenderDispatcher entityRenderDispatcher) {
+public class BlazingMechanicalEntityRenderer extends MobEntityRenderer<BlazingMechanicalEntity, BlazingMechanicalModel> {
+    public BlazingMechanicalEntityRenderer(EntityRenderDispatcher entityRenderDispatcher) {
         super(entityRenderDispatcher, new BlazingMechanicalModel(), 0.5f);
     }
 
