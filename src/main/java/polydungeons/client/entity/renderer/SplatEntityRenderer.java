@@ -69,7 +69,7 @@ public class SplatEntityRenderer extends EntityRenderer<SplatEntity> {
         matrices.scale(overallScale * squishX, 1, overallScale * squishZ);
 
         // actually render it
-        VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(getTexture(entity)));
+        VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(getTexture(entity)));
         Matrix4f modelMatrix = matrices.peek().getModel();
         Vector4f v00 = new Vector4f(-0.5f, 0f, -0.5f, 1f);
         v00.transform(modelMatrix);
