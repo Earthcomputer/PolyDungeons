@@ -8,6 +8,8 @@
     "LivingEntityMixin"
   ],
   "client": [
+    "HeldItemRendererMixin",
+    "PlayerEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

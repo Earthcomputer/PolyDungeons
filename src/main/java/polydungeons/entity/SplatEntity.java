@@ -148,6 +148,7 @@ public class SplatEntity extends Entity {
     }
 
     @Environment(EnvType.CLIENT)
+    @Override
     public boolean shouldRender(double distance) {
         double maxDistance = getBoundingBox().getAverageSideLength() * 10;
         if (Double.isNaN(maxDistance)) {
