@@ -1,16 +1,25 @@
 package polydungeons.item;
 
+import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
 import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FireworkRocketEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.RangedWeaponItem;
+import net.minecraft.item.Vanishable;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.*;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.UseAction;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import polydungeons.PolyDungeons;
+import polydungeons.container.FireworkLauncherContainer;
 import polydungeons.sound.PolyDungeonsSoundEvents;
 
 import java.util.function.Predicate;
@@ -28,6 +37,14 @@ public class FireworkLauncherItem extends RangedWeaponItem implements Vanishable
 
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+		if(!world.isClient) {
+			if (user.isSneaking()) {
+				ContainerProviderRegistry.INSTANCE.openContainer(FireworkLauncherContainer.IDENTIFIER, user, (buffer) -> {
+					buffer.writeText(new TranslatableText(this.getTranslationKey()));
+				});
+				return TypedActionResult.fail(user.getStackInHand(hand));
+			}
+		}
 		ItemStack stack = user.getStackInHand(hand);
 		user.setCurrentHand(hand);
 		return TypedActionResult.pass(stack);

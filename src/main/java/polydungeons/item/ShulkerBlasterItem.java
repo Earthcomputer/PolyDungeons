@@ -1,30 +1,25 @@
 package polydungeons.item;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.TargetPredicate;
-import net.minecraft.entity.mob.GuardianEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.mob.ShulkerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ShulkerBulletEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.RangedWeaponItem;
-import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import polydungeons.client.entity.ILivingEntity;
 
 import java.util.List;
-import java.util.Random;
 import java.util.function.Predicate;
 
 public class ShulkerBlasterItem extends RangedWeaponItem {
@@ -47,36 +42,53 @@ public class ShulkerBlasterItem extends RangedWeaponItem {
 	@Override
 	public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
 		super.usageTick(world, user, stack, remainingUseTicks);
-		if (!world.isClient) {
-			Random random = new Random();
-			world.getClosestPlayer(user, 128);
-//			Predicate<LivingEntity> predicate = EntityPredicates.VALID_LIVING_ENTITY;
-			TargetPredicate predicate = new TargetPredicate().setPredicate(new Predicate<LivingEntity>() {
-				@Override
-				public boolean test(LivingEntity livingEntity) {
-					return livingEntity.hurtTime > 20;
+		if(remainingUseTicks % 4 == 0) {
+			if (!world.isClient) {
+				if (user instanceof PlayerEntity) {
+					shoot(world, (PlayerEntity)user, stack);
 				}
-			});
-			Box box = new Box(
-					user.getX() - 48, user.getY() - 48, user.getZ() - 48,
-					user.getX() + 48, user.getY() + 48, user.getZ() + 48
-			);
-			LivingEntity entity = world.getClosestEntity(
-					LivingEntity.class,
-					predicate,
-					user,
-					user.getX(), user.getY(), user.getZ(),
-					box
-			);
-//			List<Entity> entities = world.getEntities(user, box, predicate);
+			}
+		}
+	}
+	public void shoot(World world, PlayerEntity player, ItemStack stack) {
+		Box box = new Box(
+				player.getX() - 24, player.getY() - 24, player.getZ() - 24,
+				player.getX() + 24, player.getY() + 24, player.getZ() + 24
+		);
+		List<LivingEntity> entities = world.getEntities(LivingEntity.class, box, (Predicate<Entity>) entity -> {
+			if (entity instanceof PlayerEntity)
+				return false;
+			if (entity instanceof LivingEntity)
+				return true;
+			return false;
+		});
+		if (!entities.isEmpty()) {
+			LivingEntity target = getTarget(player, entities);
+			((ILivingEntity) target).incrementTimesTargeted();
+			ShulkerBulletEntity entity = new ShulkerBulletEntity(world, player, target, Direction.Axis.Y);
+			entity.setPos(player.getX(), player.getY() + 1, player.getZ());
 
-			world.spawnEntity(new ShulkerBulletEntity(world, user, entity, Direction.Axis.Y));
-			user.playSound(SoundEvents.ENTITY_SHULKER_SHOOT, 2.0F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
+			Vec3d playerRotation = player.getRotationVector();
+
+			entity.addVelocity(playerRotation.x, playerRotation.y, playerRotation.z);
+			world.spawnEntity(entity);
+			world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_SHULKER_SHOOT, SoundCategory.PLAYERS, 1.0f, 1.0f);
 		}
 	}
 
-	public Entity getTarget() {
-		return null;
+	public LivingEntity getTarget(PlayerEntity player, List<LivingEntity> entities) {
+		LivingEntity ret = entities.get(0);
+		float max = Float.MIN_VALUE;
+
+		for(LivingEntity entity : entities) {
+			float priority = ((ILivingEntity) entity).getTargetPriority(player);
+			if(priority > max) {
+				ret = entity;
+				max = priority;
+			}
+
+		}
+		return ret;
 	}
 
 	@Override

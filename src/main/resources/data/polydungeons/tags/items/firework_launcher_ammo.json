@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:gunpowder",
+    "minecraft:paper",
+    "minecraft:firework_rocket"
+  ]
+}
