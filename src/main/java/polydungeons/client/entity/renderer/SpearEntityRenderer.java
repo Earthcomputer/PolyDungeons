@@ -14,11 +14,11 @@ import polydungeons.PolyDungeons;
 import polydungeons.client.entity.model.SpearModel;
 import polydungeons.entity.SpearEntity;
 
-public class SpearRenderer extends EntityRenderer<SpearEntity> {
+public class SpearEntityRenderer extends EntityRenderer<SpearEntity> {
 	public static final Identifier TEXTURE = new Identifier(PolyDungeons.MODID, "textures/entity/spear.png");
 	private final SpearModel model = new SpearModel();
 
-	public SpearRenderer(EntityRenderDispatcher entityRenderDispatcher) {
+	public SpearEntityRenderer(EntityRenderDispatcher entityRenderDispatcher) {
 		super(entityRenderDispatcher);
 	}
 

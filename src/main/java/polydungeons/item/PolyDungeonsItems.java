@@ -9,6 +9,8 @@ import polydungeons.PolyDungeons;
 
 public class PolyDungeonsItems {
 
+    public static EssenceItem SLIMY_ESSENCE;
+
     public static FireworkLauncherItem FIREWORK_LAUNCHER;
     public static ShulkerBlasterItem SHULKER_BLASTER;
     public static SlingshotItem SLINGSHOT;
@@ -20,12 +22,15 @@ public class PolyDungeonsItems {
 
     public static JigsawDebugItem JIGSAW_DEBUG;
 
+
     public static <T extends Item> T registerItem(T item, String id) {
         Registry.register(Registry.ITEM, new Identifier(PolyDungeons.MODID, id), item);
         return item;
     }
 
     public static void registerAll() {
+        SLIMY_ESSENCE = registerItem(new EssenceItem(new Item.Settings().maxCount(16).rarity(Rarity.RARE).group(ItemGroup.MISC)), "slimy_essence");
+
         FIREWORK_LAUNCHER = registerItem(new FireworkLauncherItem(new Item.Settings().maxCount(1).rarity(Rarity.RARE).group(ItemGroup.COMBAT)), "firework_launcher");
         SHULKER_BLASTER = registerItem(new ShulkerBlasterItem(new Item.Settings().maxCount(1).rarity(Rarity.EPIC).group(ItemGroup.COMBAT)), "shulker_blaster");
         SLINGSHOT = registerItem(new SlingshotItem(new Item.Settings().maxDamage(384).group(ItemGroup.COMBAT)), "slingshot");
