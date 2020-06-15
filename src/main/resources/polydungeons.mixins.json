@@ -9,6 +9,8 @@
   ],
   "client": [
     "HeldItemRendererMixin",
+    "ModelPartAccessor",
+    "ModelPartCuboidAccessor",
     "PlayerEntityRendererMixin"
   ],
   "injectors": {

@@ -25,6 +25,7 @@ version = project.mod_version
 group = project.maven_group
 
 minecraft {
+    accessWidener 'src/main/resources/polydungeons.accesswidener'
 }
 
 dependencies {
