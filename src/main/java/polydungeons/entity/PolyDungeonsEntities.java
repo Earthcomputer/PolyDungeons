@@ -12,6 +12,12 @@ import net.minecraft.util.registry.Registry;
 import polydungeons.PolyDungeons;
 
 public class PolyDungeonsEntities {
+    public static final EntityType<BiglinEntity> BIGLIN = register(
+            "biglin",
+            FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, BiglinEntity::new)
+            .dimensions(EntityDimensions.fixed(0.75f, 2f)).build()
+    );
+
     public static final EntityType<BlazingMechanicalEntity> BLAZING_MECHANICAL = register(
             "blazing_mechanical",
             FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, BlazingMechanicalEntity::new)
@@ -50,5 +56,7 @@ public class PolyDungeonsEntities {
     public static void registerAll() {
         FabricDefaultAttributeRegistry.register(BLAZING_MECHANICAL, BlazingMechanicalEntity.createBlazeAttributes());
         FabricDefaultAttributeRegistry.register(SLUG_SLIME, HostileEntity.createHostileAttributes());
+
+        FabricDefaultAttributeRegistry.register(BIGLIN, BiglinEntity.createBiglinAttributes());
     }
 }
