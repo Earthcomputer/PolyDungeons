@@ -102,13 +102,13 @@ public class SlingshotItem extends RangedWeaponItem {
         return ammo;
     }
 
-    public static float getPullProgress(int useTicks) {
-        return BowItem.getPullProgress(useTicks);
-    }
-
-    @Override
-    public UseAction getUseAction(ItemStack stack) {
-        return UseAction.BOW;
+    public static float getPullProgress(float useTicks) {
+        float progress = useTicks / 20f;
+        progress = (progress * progress + progress * 2f) / 3f;
+        if (progress > 1) {
+            progress = 1;
+        }
+        return progress;
     }
 
     @Override

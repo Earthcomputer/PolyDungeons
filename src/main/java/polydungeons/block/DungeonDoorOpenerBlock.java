@@ -23,9 +23,8 @@ public class DungeonDoorOpenerBlock extends Block {
 
     public void use (World world, BlockPos pos, PlayerEntity player) {
         for (BlockPos blockPos : BlockPos.iterateOutwards(pos, 3, 3, 3)) {
-            if (world.getBlockState(blockPos).isOf(new DungeonDoorBlock())) {
+            if (world.getBlockState(blockPos).isOf(PolyDungeonsBlocks.DUNGEON_DOOR)) {
                 DungeonDoorBlock doorBlock = (DungeonDoorBlock) world.getBlockState(blockPos).getBlock();
-                player.sendMessage(new LiteralText("Opened " + blockPos.toShortString()), false);
                 doorBlock.doorOpened(world, blockPos);
             }
         }

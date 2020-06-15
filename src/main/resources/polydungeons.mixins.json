@@ -5,9 +5,13 @@
   "mixins": [
     "EnchantmentHelperMixin",
     "EnchantmentMixin",
-    "PlayerTotemMixin"
+    "LivingEntityMixin"
   ],
   "client": [
+    "HeldItemRendererMixin",
+    "ModelPartAccessor",
+    "ModelPartCuboidAccessor",
+    "PlayerEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -15,9 +15,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import polydungeons.entity.FloatingItemEntity;
 
-public class FloatingItemRenderer extends EntityRenderer<FloatingItemEntity> {
+public class FloatingItemEntityRenderer extends EntityRenderer<FloatingItemEntity> {
 
-    public FloatingItemRenderer(EntityRenderDispatcher dispatcher) {
+    public FloatingItemEntityRenderer(EntityRenderDispatcher dispatcher) {
         super(dispatcher);
     }
 

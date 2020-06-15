@@ -9,5 +9,9 @@
 
   "subtitles.polydungeons.shoot": "Gunshot",
   "subtitles.polydungeons.slingshot": "Slingshot Fires",
-  "subtitles.polydungeons.splat": "Splat"
+  "subtitles.polydungeons.splat": "Splat",
+  "subtitles.polydungeons.shoot": "Gunshot",
+
+  "block.polydungeons.dungeon_door": "Dungeon Door",
+  "block.polydungeons.dungeon_door_opener": "Dungeon Door Opener"
 }
