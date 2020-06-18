@@ -7,11 +7,7 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.entity.EntityType;
-import polydungeons.client.entity.renderer.BlazingMechanicalEntityRenderer;
-import polydungeons.client.entity.renderer.FloatingItemEntityRenderer;
-import polydungeons.client.entity.renderer.SlugSlimeRenderer;
-import polydungeons.client.entity.renderer.SpearEntityRenderer;
-import polydungeons.client.entity.renderer.SplatEntityRenderer;
+import polydungeons.client.entity.renderer.*;
 import polydungeons.entity.PolyDungeonsEntities;
 
 import java.util.function.Function;
@@ -19,6 +15,8 @@ import java.util.function.Function;
 @Environment(EnvType.CLIENT)
 public class EntityClientInit {
     public static void registerAll() {
+        register(PolyDungeonsEntities.BIGLIN, BiglinEntityRenderer::new);
+
         register(PolyDungeonsEntities.BLAZING_MECHANICAL, BlazingMechanicalEntityRenderer::new);
         register(PolyDungeonsEntities.ANCHOR, FloatingItemEntityRenderer::new);
         EntityRendererRegistry.INSTANCE.register(PolyDungeonsEntities.SLINGSHOT_PROJECTILE, (dispatcher, context) -> new FlyingItemEntityRenderer<>(dispatcher, context.getItemRenderer()));
