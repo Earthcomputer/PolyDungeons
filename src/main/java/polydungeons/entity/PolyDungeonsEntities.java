@@ -6,7 +6,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import polydungeons.PolyDungeons;
@@ -49,6 +48,6 @@ public class PolyDungeonsEntities {
 
     public static void registerAll() {
         FabricDefaultAttributeRegistry.register(BLAZING_MECHANICAL, BlazingMechanicalEntity.createBlazeAttributes());
-        FabricDefaultAttributeRegistry.register(SLUG_SLIME, HostileEntity.createHostileAttributes());
+        FabricDefaultAttributeRegistry.register(SLUG_SLIME, SlugSlimeEntity.createSlugSlimeAttributes());
     }
 }

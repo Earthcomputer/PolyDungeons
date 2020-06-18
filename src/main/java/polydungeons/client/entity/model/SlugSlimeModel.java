@@ -123,6 +123,7 @@ public class SlugSlimeModel extends CompositeEntityModel<SlugSlimeEntity> {
     @Override
     public void animateModel(SlugSlimeEntity entity, float limbAngle, float limbDistance, float tickDelta) {
         super.animateModel(entity, limbAngle, limbDistance, tickDelta);
+        float bodyYaw = MathHelper.lerpAngleDegrees(tickDelta, entity.prevBodyYaw, entity.bodyYaw);
         float headPitch = MathHelper.lerpAngleDegrees(tickDelta, entity.prevPitch, entity.pitch);
         float leftEyeYaw = entity.getLeftEyeYaw(tickDelta);
         float leftEyePitch = entity.getLeftEyePitch(tickDelta);
@@ -138,11 +139,11 @@ public class SlugSlimeModel extends CompositeEntityModel<SlugSlimeEntity> {
         children.set(LEFT_EYE_POLE_INDEX, leftEyePole);
         children.set(RIGHT_EYE_POLE_INDEX, rightEyePole);
 
-        leftEyePole.yaw = (float)Math.toRadians(leftEyeYaw);
+        leftEyePole.yaw = (float)Math.toRadians(leftEyeYaw - bodyYaw);
         leftEyePole.pitch = (float)Math.toRadians(leftEyePitch);
-        rightEyePole.yaw = (float)Math.toRadians(rightEyeYaw);
+        rightEyePole.yaw = (float)Math.toRadians(rightEyeYaw - bodyYaw);
         rightEyePole.pitch = (float)Math.toRadians(rightEyePitch);
-        snout.yaw = (float)Math.toRadians(snoutYaw);
+        snout.yaw = (float)Math.toRadians(snoutYaw - bodyYaw);
         snout.pitch = (float)Math.toRadians(snoutPitch);
     }
 
