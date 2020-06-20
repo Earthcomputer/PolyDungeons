@@ -17,8 +17,8 @@ import polydungeons.item.SlingshotItem;
 @Environment(EnvType.CLIENT)
 public class PlayerEntityRendererMixin {
     @Inject(method = "getArmPose", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getUseAction()Lnet/minecraft/util/UseAction;"), cancellable = true)
-    private void onGetArmPose(AbstractClientPlayerEntity player, ItemStack mainhandStack, ItemStack offhandStack, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> ci) {
-        ItemStack stack = hand == Hand.MAIN_HAND ? mainhandStack : offhandStack;
+    private static void onGetArmPose(AbstractClientPlayerEntity player, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> ci) {
+        ItemStack stack = player.getStackInHand(hand);
         if (stack.getItem() instanceof SlingshotItem) {
             ci.setReturnValue(BipedEntityModel.ArmPose.BOW_AND_ARROW);
         }
