@@ -6,13 +6,18 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import polydungeons.PolyDungeons;
 import polydungeons.entity.charms.AnchorEntity;
 
 public class PolyDungeonsEntities {
+    public static final EntityType<BiglinEntity> BIGLIN = register(
+            "biglin",
+            FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, BiglinEntity::new)
+            .dimensions(EntityDimensions.fixed(0.75f, 2f)).build()
+    );
+
     public static final EntityType<BlazingMechanicalEntity> BLAZING_MECHANICAL = register(
             "blazing_mechanical",
             FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, BlazingMechanicalEntity::new)
@@ -53,6 +58,8 @@ public class PolyDungeonsEntities {
 
     public static void registerAll() {
         FabricDefaultAttributeRegistry.register(BLAZING_MECHANICAL, BlazingMechanicalEntity.createBlazeAttributes());
-        FabricDefaultAttributeRegistry.register(SLUG_SLIME, HostileEntity.createHostileAttributes());
+        FabricDefaultAttributeRegistry.register(SLUG_SLIME, SlugSlimeEntity.createSlugSlimeAttributes());
+
+        FabricDefaultAttributeRegistry.register(BIGLIN, BiglinEntity.createBiglinAttributes());
     }
 }

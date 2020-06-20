@@ -1,4 +1,4 @@
-package polydungeons.client.entity;
+package polydungeons.entity;
 
 import net.minecraft.entity.player.PlayerEntity;
 

@@ -3,16 +3,11 @@ package polydungeons.container;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.IntTag;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import polydungeons.PolyDungeons;
-import polydungeons.tag.PolyDungeonsItemTags;
 import spinnery.common.container.BaseContainer;
 import spinnery.common.inventory.BaseInventory;
-import spinnery.common.utility.InventoryUtilities;
 import spinnery.widget.WInterface;
 import spinnery.widget.WSlot;
 

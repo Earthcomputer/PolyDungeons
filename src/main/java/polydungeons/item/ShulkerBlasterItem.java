@@ -17,7 +17,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import polydungeons.client.entity.ILivingEntity;
+import polydungeons.entity.ILivingEntity;
 
 import java.util.List;
 import java.util.function.Predicate;
