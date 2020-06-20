@@ -144,7 +144,7 @@ public class SlugSlimeModel extends CompositeEntityModel<SlugSlimeEntity> {
         rightEyePole.yaw = (float)Math.toRadians(rightEyeYaw - bodyYaw);
         rightEyePole.pitch = (float)Math.toRadians(rightEyePitch);
         snout.yaw = (float)Math.toRadians(snoutYaw - bodyYaw);
-        snout.pitch = (float)Math.toRadians(snoutPitch);
+        snout.pitch = (float)Math.toRadians(snoutPitch - 90);
     }
 
     @Override

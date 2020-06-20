@@ -1,20 +1,34 @@
 package polydungeons.entity;
 
+import net.dblsaiko.qcommon.croco.Mat4;
+import net.dblsaiko.qcommon.croco.Vec3;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.control.LookControl;
+import net.minecraft.entity.ai.goal.FollowTargetGoal;
+import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
+import net.minecraft.entity.ai.goal.RevengeGoal;
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.MobEntityWithAi;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class SlugSlimeEntity extends MobEntityWithAi implements IMobEntity {
@@ -32,11 +46,13 @@ public class SlugSlimeEntity extends MobEntityWithAi implements IMobEntity {
     private float prevSnoutPitch;
 
     private LookControl snoutLookControl;
+    private LookControl headLookControl;
 
     protected SlugSlimeEntity(EntityType<? extends MobEntityWithAi> entityType, World world) {
         super(entityType, world);
         lookControl = new SlugSlimeLookControl(this);
         snoutLookControl = new SnoutLookControl(this);
+        headLookControl = new HeadLookControl(this);
     }
 
     public SlugSlimeEntity(World world) {
@@ -57,8 +73,11 @@ public class SlugSlimeEntity extends MobEntityWithAi implements IMobEntity {
     @Override
     protected void initGoals() {
         super.initGoals();
+        goalSelector.add(4, new SlugSlimeAttackGoal(this));
         goalSelector.add(5, new WanderAroundFarGoal(this, 1));
         goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8));
+        targetSelector.add(1, new RevengeGoal(this));
+        targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, true));
     }
 
     public static DefaultAttributeContainer.Builder createSlugSlimeAttributes() {
@@ -83,7 +102,53 @@ public class SlugSlimeEntity extends MobEntityWithAi implements IMobEntity {
     public void polydungeons_onControlTick() {
         world.getProfiler().push("slugSlimeSnoutLook");
         snoutLookControl.tick();
+        world.getProfiler().swap("slugSlimeHead");
+        headLookControl.tick();
         world.getProfiler().pop();
+    }
+
+    public void shootAt(LivingEntity target) {
+        Mat4 transform = Mat4.IDENTITY
+            .translate(0, 22/16f, 0)
+            .rotate(0, 1, 0, headYaw)
+            .rotate(1, 0, 0, pitch)
+            .translate(0, -22/16f, 0)
+            .translate(0, 31/16f, 3/16f)
+            .rotate(0, 1, 0, getSnoutYaw() - headYaw)
+            .rotate(1, 0, 0, getSnoutPitch() - pitch)
+            .translate(0, -7/16f, 0);
+        Vec3d snoutEnd = getPos().add(transform.mul(Vec3.ORIGIN).toVec3d());
+
+        Vec3d targetVelocity = target.getVelocity();
+        double dx = target.getX() + targetVelocity.x - snoutEnd.x;
+        double dy = target.getY() - snoutEnd.y;
+        double dz = target.getZ() + targetVelocity.z - snoutEnd.z;
+
+        SlingshotProjectileEntity projectile = new SlingshotProjectileEntity(this, world);
+        projectile.updatePosition(snoutEnd.x, snoutEnd.y, snoutEnd.z);
+        projectile.setVelocity(dx, dy + MathHelper.sqrt(dx * dx + dz * dz), dz, 0.75f, 8);
+        world.spawnEntity(projectile);
+
+        if (!isSilent()) {
+            world.playSound(null, getX(), getY(), getZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.HOSTILE, 1, 0.8f + random.nextFloat() * 0.4f);
+        }
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return SoundEvents.ENTITY_SLIME_HURT;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.ENTITY_SLIME_DEATH;
+    }
+
+    @Override
+    protected void playStepSound(BlockPos pos, BlockState state) {
+        if (!state.getMaterial().isLiquid()) {
+            // TODO: slither
+        }
     }
 
     public float getLeftEyeYaw() {
@@ -164,6 +229,88 @@ public class SlugSlimeEntity extends MobEntityWithAi implements IMobEntity {
         return MathHelper.lerpAngleDegrees(tickDelta, prevSnoutPitch, getSnoutPitch());
     }
 
+    private static class SlugSlimeAttackGoal extends Goal {
+        private final SlugSlimeEntity entity;
+        private LivingEntity target;
+        private int updateCountdownTicks = -1;
+        private final double mobSpeed = 1;
+        private int seenTargetTicks;
+        private final int minIntervalTicks = 15;
+        private final int maxIntervalTicks = 30;
+        private final float maxShootRange = 10;
+        private final float maxShootRangeSq = maxShootRange * maxShootRange;
+
+        public SlugSlimeAttackGoal(SlugSlimeEntity entity) {
+            this.entity = entity;
+        }
+
+        @Override
+        public boolean canStart() {
+            LivingEntity target = entity.getTarget();
+            if (target == null || !target.isAlive()) {
+                return false;
+            }
+
+            this.target = target;
+            return true;
+        }
+
+        @Override
+        public boolean shouldContinue() {
+            return canStart() || !entity.getNavigation().isIdle();
+        }
+
+        @Override
+        public void stop() {
+            target = null;
+            seenTargetTicks = 0;
+            updateCountdownTicks = -1;
+        }
+
+        @Override
+        public void tick() {
+            double distanceSqToTarget = entity.squaredDistanceTo(target.getX(), target.getY(), target.getZ());
+            boolean canSeeTarget = entity.getVisibilityCache().canSee(target);
+            if (canSeeTarget) {
+                seenTargetTicks++;
+            } else {
+                seenTargetTicks = 0;
+            }
+
+            if (distanceSqToTarget <= maxShootRangeSq && seenTargetTicks >= 5) {
+                entity.getNavigation().stop();
+            } else {
+                entity.getNavigation().startMovingTo(target, mobSpeed);
+            }
+
+            entity.getLookControl().lookAt(target, 10, 10);
+            entity.snoutLookControl.lookAt(target, 30, 30);
+            if (getAngleToTarget() > 45) {
+                entity.headLookControl.lookAt(target, 20, 20);
+            }
+
+            updateCountdownTicks--;
+            if (updateCountdownTicks == 0) {
+                if (!canSeeTarget) {
+                    return;
+                }
+
+                float distanceNormalized = MathHelper.sqrt(distanceSqToTarget) / maxShootRange;
+                entity.shootAt(target);
+                updateCountdownTicks = MathHelper.floor(distanceNormalized * (maxIntervalTicks - minIntervalTicks) + minIntervalTicks);
+            } else if (updateCountdownTicks < 0) {
+                float distanceNormalized = MathHelper.sqrt(distanceSqToTarget) / maxShootRange;
+                updateCountdownTicks = MathHelper.floor(distanceNormalized * (maxIntervalTicks - minIntervalTicks) + minIntervalTicks);
+            }
+        }
+
+        private double getAngleToTarget() {
+            Vec3d targetRelPos = target.getCameraPosVec(1).subtract(entity.getCameraPosVec(1));
+            double cosine = entity.getRotationVec(1).dotProduct(targetRelPos) / targetRelPos.length();
+            return Math.toDegrees(Math.acos(MathHelper.clamp(cosine, -1, 1)));
+        }
+    }
+
     private static class SlugSlimeLookControl extends LookControl {
         private SlugSlimeEntity entity;
         private boolean movingLeftEye;
@@ -214,10 +361,6 @@ public class SlugSlimeEntity extends MobEntityWithAi implements IMobEntity {
             } else {
                 movingRightEye = false;
             }
-
-            if (!entity.getNavigation().isIdle()) {
-                entity.headYaw = MathHelper.stepAngleTowards(entity.headYaw, entity.bodyYaw, entity.getBodyYawSpeed());
-            }
         }
     }
 
@@ -244,7 +387,7 @@ public class SlugSlimeEntity extends MobEntityWithAi implements IMobEntity {
                 final float YAW_RATE = 0.03f / (float) Math.PI;
                 float targetYaw = entity.bodyYaw + 30 * (float)Math.sin(entity.age * YAW_RATE * TAU);
                 final float PITCH_RATE = 0.03f;
-                float targetPitch = entity.pitch - 45 - 15 * (float)Math.sin(entity.age * PITCH_RATE * TAU - 0.5 * Math.sin(entity.age * PITCH_RATE * TAU - 0.5 * Math.sin(entity.age * PITCH_RATE * TAU)));
+                float targetPitch = entity.pitch + 45 - 15 * (float)Math.sin(entity.age * PITCH_RATE * TAU - 0.5 * Math.sin(entity.age * PITCH_RATE * TAU - 0.5 * Math.sin(entity.age * PITCH_RATE * TAU)));
                 entity.setSnoutYaw(changeAngle(entity.getSnoutYaw(), targetYaw, 10));
                 entity.setSnoutPitch(changeAngle(entity.getSnoutPitch(), targetPitch, 10));
             }
@@ -253,6 +396,17 @@ public class SlugSlimeEntity extends MobEntityWithAi implements IMobEntity {
         @Override
         protected boolean shouldStayHorizontal() {
             return false;
+        }
+    }
+
+    private static class HeadLookControl extends LookControl {
+        public HeadLookControl(MobEntity entity) {
+            super(entity);
+        }
+
+        @Override
+        protected boolean shouldStayHorizontal() {
+            return !active;
         }
     }
 }
