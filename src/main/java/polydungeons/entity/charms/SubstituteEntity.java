@@ -10,6 +10,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.World;
 import polydungeons.entity.FloatingItemEntity;
 import polydungeons.entity.SlingshotProjectileEntity;
+import polydungeons.item.PolyDungeonsItems;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class SubstituteEntity extends FloatingItemEntity {
 
     @Override
     public ItemStack getItem() {
-        return new ItemStack(Items.APPLE);
+        return new ItemStack(PolyDungeonsItems.SUBSTITUTE);
     }
 
     public int getCapacity() {
