@@ -10,6 +10,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import polydungeons.PolyDungeons;
 import polydungeons.entity.charms.AnchorEntity;
+import polydungeons.entity.charms.SubstituteEntity;
 
 public class PolyDungeonsEntities {
     public static final EntityType<BiglinEntity> BIGLIN = register(
@@ -33,6 +34,11 @@ public class PolyDungeonsEntities {
     public static final EntityType<AnchorEntity> ANCHOR = register(
             "anchor",
             FabricEntityTypeBuilder.create(SpawnGroup.MISC, AnchorEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.25f, 0.25f)).build()
+    );
+    public static final EntityType<SubstituteEntity> SUBSTITUTE = register(
+            "substitute",
+            FabricEntityTypeBuilder.create(SpawnGroup.MISC, SubstituteEntity::new)
                     .dimensions(EntityDimensions.fixed(0.25f, 0.25f)).build()
     );
 

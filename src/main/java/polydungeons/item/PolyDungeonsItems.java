@@ -7,6 +7,7 @@ import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 import polydungeons.PolyDungeons;
 import polydungeons.item.charms.AnchorCharmItem;
+import polydungeons.item.charms.SubstituteCharmItem;
 
 public class PolyDungeonsItems {
 
@@ -17,6 +18,7 @@ public class PolyDungeonsItems {
     public static SlingshotItem SLINGSHOT;
 
     public static AnchorCharmItem ANCHOR;
+    public static SubstituteCharmItem SUBSTITUTE;
 
     public static SpearItem SPEAR;
     public static AtlatlItem ATLATL;
@@ -40,6 +42,7 @@ public class PolyDungeonsItems {
         ATLATL = registerItem(new AtlatlItem(new Item.Settings().maxCount(1).rarity(Rarity.RARE).group(ItemGroup.COMBAT)), "atlatl");
 
         ANCHOR = registerItem(new AnchorCharmItem(), "anchor");
+        SUBSTITUTE = registerItem(new SubstituteCharmItem(), "substitute");
 
         JIGSAW_DEBUG = registerItem(new JigsawDebugItem(), "jigsaw_debug_stick");
     }

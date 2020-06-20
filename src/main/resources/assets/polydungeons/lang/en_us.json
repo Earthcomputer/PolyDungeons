@@ -6,11 +6,13 @@
   "item.polydungeons.firework_launcher": "Firework Launcher",
   "item.polydungeons.spear": "Spear",
   "item.polydungeons.atlatl": "Atlatl",
+  "item.polydungeons.anchor": "Anchor Charm",
+  "item.polydungeons.substitute": "Substitute Charm",
+  "item.polydungeons.substitute.broken": "Your Substitute breaks!",
 
   "subtitles.polydungeons.shoot": "Gunshot",
   "subtitles.polydungeons.slingshot": "Slingshot Fires",
   "subtitles.polydungeons.splat": "Splat",
-  "subtitles.polydungeons.shoot": "Gunshot",
 
   "block.polydungeons.dungeon_door": "Dungeon Door",
   "block.polydungeons.dungeon_door_opener": "Dungeon Door Opener"

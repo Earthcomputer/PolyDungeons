@@ -11,6 +11,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,11 +19,13 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import polydungeons.entity.ILivingEntity;
 import polydungeons.entity.charms.AnchorEntity;
 import polydungeons.entity.SplatEntity;
+import polydungeons.entity.charms.SubstituteEntity;
 
 import java.util.List;
 import java.util.UUID;
@@ -93,6 +96,32 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntity 
 				}
 			}
 		}
+	}
+
+	@ModifyVariable(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At(value = "HEAD", target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"))
+	public float damage(float amount) {
+		if((Object)this instanceof PlayerEntity) {
+			for (UUID uuid : SubstituteEntity.allSubstitutes) {
+				System.out.println(uuid.toString());
+				ServerWorld world = ((ServerWorld) getEntityWorld());
+				SubstituteEntity substitute = (SubstituteEntity)world.getEntity(uuid);
+				if (substitute == null) continue;
+				System.out.println("Found entity!");
+				if (substitute.getEntityWorld().getDimension() == getEntityWorld().getDimension()) {
+					this.clearStatusEffects();
+
+					substitute.setCapacity((int)(substitute.getCapacity() - amount));
+					System.out.println("found substitute");
+					if(substitute.getCapacity() <= 0) {
+						SubstituteEntity.allSubstitutes.remove(uuid);
+						((PlayerEntity)(Object)this).sendMessage(new TranslatableText("item.polydungeons.substitute.broken"), true);
+						substitute.kill();
+					}
+					return 0f;
+				}
+			}
+		}
+		return amount;
 	}
 
 	private void recalculatePriority(PlayerEntity player, float maxHealth, float health, int timesTargeted, float distance) {
