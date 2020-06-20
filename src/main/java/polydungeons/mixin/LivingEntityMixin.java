@@ -1,6 +1,5 @@
 package polydungeons.mixin;
 
-import net.minecraft.client.render.entity.DragonFireballEntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -10,8 +9,8 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,10 +21,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import polydungeons.client.entity.ILivingEntity;
-import polydungeons.entity.AnchorEntity;
+import polydungeons.entity.charms.AnchorEntity;
 import polydungeons.entity.SplatEntity;
 
 import java.util.List;
+import java.util.UUID;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements ILivingEntity {
@@ -73,9 +73,12 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntity 
 
 	@Inject(method = "tryUseTotem(Lnet/minecraft/entity/damage/DamageSource;)Z", at = @At("HEAD"), cancellable = true)
 	private void tryUseTotem(DamageSource source, CallbackInfoReturnable<Boolean> info) {
-		for(AnchorEntity anchor : AnchorEntity.anchorsInWorld) {
-			if(anchor.getEntityWorld().getDimension() == getEntityWorld().getDimension()) {
-				if (anchor.getPos().distanceTo(this.getPos()) <= AnchorEntity.RADIUS) {
+		if((Object)this instanceof PlayerEntity) {
+			for (UUID uuid : AnchorEntity.allAnchors) {
+				ServerWorld world = ((ServerWorld) getEntityWorld());
+				AnchorEntity anchor = (AnchorEntity) world.getEntity(uuid);
+				if (anchor == null) continue;
+				if (anchor.getEntityWorld().getDimension() == getEntityWorld().getDimension()) {
 					Vec3d anchorPos = anchor.getPos();
 					this.requestTeleport(anchorPos.x, anchorPos.y - 1.5, anchorPos.z);
 
@@ -84,8 +87,7 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntity 
 					this.clearStatusEffects();
 					dead = false;
 
-
-					AnchorEntity.anchorsInWorld.remove(anchor);
+					AnchorEntity.allAnchors.remove(uuid);
 					anchor.kill();
 					return;
 				}

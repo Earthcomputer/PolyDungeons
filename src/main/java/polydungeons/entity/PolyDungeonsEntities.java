@@ -10,6 +10,7 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import polydungeons.PolyDungeons;
+import polydungeons.entity.charms.AnchorEntity;
 
 public class PolyDungeonsEntities {
     public static final EntityType<BlazingMechanicalEntity> BLAZING_MECHANICAL = register(
@@ -22,11 +23,14 @@ public class PolyDungeonsEntities {
             FabricEntityTypeBuilder.<SlingshotProjectileEntity>create(SpawnGroup.MISC, SlingshotProjectileEntity::new)
             .dimensions(EntityDimensions.fixed(0.25f, 0.25f)).trackable(145, 3).build()
     );
+
+    // Charms
     public static final EntityType<AnchorEntity> ANCHOR = register(
             "anchor",
             FabricEntityTypeBuilder.create(SpawnGroup.MISC, AnchorEntity::new)
                     .dimensions(EntityDimensions.fixed(0.25f, 0.25f)).build()
     );
+
     public static final EntityType<SpearEntity> SPEAR = register(
             "spear",
             FabricEntityTypeBuilder.<SpearEntity>create(SpawnGroup.MISC, SpearEntity::new)

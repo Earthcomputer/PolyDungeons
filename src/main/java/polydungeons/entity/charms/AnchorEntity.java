@@ -1,4 +1,4 @@
-package polydungeons.entity;
+package polydungeons.entity.charms;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
@@ -7,13 +7,21 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.World;
+import polydungeons.entity.FloatingItemEntity;
 import polydungeons.item.PolyDungeonsItems;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class AnchorEntity extends FloatingItemEntity {
     public static final float RADIUS = 100;
 
+    public static List<UUID> allAnchors = new ArrayList<>();
+
     public AnchorEntity(EntityType<?> type, World world) {
         super(type, world);
+        allAnchors.add(getUuid());
     }
 
     @Override
@@ -41,21 +49,8 @@ public class AnchorEntity extends FloatingItemEntity {
     }
 
     @Override
-    public boolean damage(DamageSource source, float amount) {
-        if (source.getSource() != null) {
-            if(source.getSource() instanceof PlayerEntity) {
-                World world = source.getSource().getEntityWorld();
-                ItemEntity itemEntity = new ItemEntity(world, this.getX(), this.getY(), this.getZ(), getItem());
-                world.spawnEntity(itemEntity);
-                this.kill();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
     public void kill() {
+        allAnchors.remove(getUuid());
         super.kill();
     }
 
