@@ -13,11 +13,10 @@ public class DungeonDoorBlock extends Block {
                 .requiresTool().strength(50.0F, 1200.0F)
                 .sounds(BlockSoundGroup.NETHER_BRICKS));
     }
-    public boolean doorOpened(World world, BlockPos pos) {
+    public void doorOpened(World world, BlockPos pos) {
         if (!world.isClient) {
             world.breakBlock(pos, false);
         }
-        return true;
     }
 
 }

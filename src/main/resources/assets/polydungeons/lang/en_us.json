@@ -1,19 +1,32 @@
 {
+  "entity.polydungeons.anchor": "Anchor",
+  "entity.polydungeons.biglin": "Biglin",
+  "entity.polydungeons.blazing_mechanical": "Mechanical Blaze",
   "entity.polydungeons.slingshot_projectile": "Slingshot Projectile",
+  "entity.polydungeons.slug_slime": "Slug Slime",
   "entity.polydungeons.spear": "Spear",
+  "entity.polydungeons.splat": "Splat",
+  "entity.polydungeons.substitute": "Substitute",
 
   "item.polydungeons.slingshot": "Slingshot",
   "item.polydungeons.firework_launcher": "Firework Launcher",
+  "item.polydungeons.shulker_blaster": "Shulker Blaster",
   "item.polydungeons.spear": "Spear",
   "item.polydungeons.atlatl": "Atlatl",
   "item.polydungeons.anchor": "Anchor Charm",
   "item.polydungeons.substitute": "Substitute Charm",
   "item.polydungeons.substitute.broken": "Your Substitute breaks!",
+  "item.polydungeons.slimy_essence": "Slimy Essence",
+  "item.polydungeons.jigsaw_debug_stick": "Jigsaw Debug Stick",
+
+  "itemGroup.polydungeons.polydungeons": "PolyDungeons",
 
   "subtitles.polydungeons.shoot": "Gunshot",
   "subtitles.polydungeons.slingshot": "Slingshot Fires",
   "subtitles.polydungeons.splat": "Splat",
 
   "block.polydungeons.dungeon_door": "Dungeon Door",
-  "block.polydungeons.dungeon_door_opener": "Dungeon Door Opener"
+  "block.polydungeons.dungeon_door_opener": "Dungeon Door Opener",
+  "block.polydungeons.hardened_red_nether_bricks": "Hardened Red Nether Bricks",
+  "block.polydungeons.hardened_cracked_red_nether_bricks": "Hardened Cracked Red Nether Bricks"
 }

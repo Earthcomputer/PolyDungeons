@@ -6,7 +6,6 @@ import net.minecraft.block.Material;
 import net.minecraft.block.MaterialColor;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.text.LiteralText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -21,13 +20,15 @@ public class DungeonDoorOpenerBlock extends Block {
                 .sounds(BlockSoundGroup.NETHER_BRICKS));
     }
 
-    public void use (World world, BlockPos pos, PlayerEntity player) {
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         for (BlockPos blockPos : BlockPos.iterateOutwards(pos, 3, 3, 3)) {
             if (world.getBlockState(blockPos).isOf(PolyDungeonsBlocks.DUNGEON_DOOR)) {
                 DungeonDoorBlock doorBlock = (DungeonDoorBlock) world.getBlockState(blockPos).getBlock();
                 doorBlock.doorOpened(world, blockPos);
             }
         }
+        return ActionResult.SUCCESS;
     }
 
     public DungeonDoorOpenerBlock(Settings settings) {

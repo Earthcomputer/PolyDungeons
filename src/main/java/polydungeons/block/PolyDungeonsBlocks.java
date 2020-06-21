@@ -19,7 +19,7 @@ public class PolyDungeonsBlocks {
 
     private static <T extends Block> T registerBlock(T block, String id) {
         Registry.register(Registry.BLOCK, new Identifier(PolyDungeons.MODID, id), block);
-        BlockItem itemBlock = new BlockItem(block, new Item.Settings());
+        BlockItem itemBlock = new BlockItem(block, new Item.Settings().group(PolyDungeonsItems.GROUP));
         PolyDungeonsItems.registerItem(itemBlock, id);
         return block;
     }

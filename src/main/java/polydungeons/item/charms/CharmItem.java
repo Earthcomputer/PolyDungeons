@@ -9,10 +9,11 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import polydungeons.item.PolyDungeonsItems;
 
 public abstract class CharmItem extends Item {
     public CharmItem() {
-        super(new Settings().maxCount(16));
+        super(new Settings().maxCount(16).group(PolyDungeonsItems.GROUP));
     }
 
     @Override

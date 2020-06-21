@@ -27,6 +27,5 @@ public class PolyDungeons implements ModInitializer {
         PolyDungeonsLootTables.registerAll();
 
         DungeonData.init();
-        PolyDungeonsEvents.registerAll();
     }
 }

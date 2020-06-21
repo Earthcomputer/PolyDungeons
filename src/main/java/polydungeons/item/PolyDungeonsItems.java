@@ -1,7 +1,9 @@
 package polydungeons.item;
 
+import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
@@ -26,20 +28,24 @@ public class PolyDungeonsItems {
     public static JigsawDebugItem JIGSAW_DEBUG;
 
 
+    public static final ItemGroup GROUP = FabricItemGroupBuilder.create(new Identifier(PolyDungeons.MODID, PolyDungeons.MODID))
+            .icon(() -> new ItemStack(SLINGSHOT)) // TODO: better icon?
+            .build();
+
     public static <T extends Item> T registerItem(T item, String id) {
         Registry.register(Registry.ITEM, new Identifier(PolyDungeons.MODID, id), item);
         return item;
     }
 
     public static void registerAll() {
-        SLIMY_ESSENCE = registerItem(new EssenceItem(new Item.Settings().maxCount(16).rarity(Rarity.RARE).group(ItemGroup.MISC)), "slimy_essence");
+        SLIMY_ESSENCE = registerItem(new EssenceItem(new Item.Settings().maxCount(16).rarity(Rarity.RARE).group(GROUP)), "slimy_essence");
 
-        FIREWORK_LAUNCHER = registerItem(new FireworkLauncherItem(new Item.Settings().maxCount(1).rarity(Rarity.RARE).group(ItemGroup.COMBAT)), "firework_launcher");
-        SHULKER_BLASTER = registerItem(new ShulkerBlasterItem(new Item.Settings().maxCount(1).rarity(Rarity.EPIC).group(ItemGroup.COMBAT)), "shulker_blaster");
-        SLINGSHOT = registerItem(new SlingshotItem(new Item.Settings().maxDamage(384).group(ItemGroup.COMBAT)), "slingshot");
+        FIREWORK_LAUNCHER = registerItem(new FireworkLauncherItem(new Item.Settings().maxCount(1).rarity(Rarity.RARE).group(GROUP)), "firework_launcher");
+        SHULKER_BLASTER = registerItem(new ShulkerBlasterItem(new Item.Settings().maxCount(1).rarity(Rarity.EPIC).group(GROUP)), "shulker_blaster");
+        SLINGSHOT = registerItem(new SlingshotItem(new Item.Settings().maxDamage(384).group(GROUP)), "slingshot");
 
-        SPEAR = registerItem(new SpearItem(new Item.Settings().group(ItemGroup.COMBAT)), "spear");
-        ATLATL = registerItem(new AtlatlItem(new Item.Settings().maxCount(1).rarity(Rarity.RARE).group(ItemGroup.COMBAT)), "atlatl");
+        SPEAR = registerItem(new SpearItem(new Item.Settings().group(GROUP)), "spear");
+        ATLATL = registerItem(new AtlatlItem(new Item.Settings().maxCount(1).rarity(Rarity.RARE).group(GROUP)), "atlatl");
 
         ANCHOR = registerItem(new AnchorCharmItem(), "anchor");
         SUBSTITUTE = registerItem(new SubstituteCharmItem(), "substitute");
