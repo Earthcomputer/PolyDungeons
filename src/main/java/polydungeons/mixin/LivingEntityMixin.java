@@ -10,8 +10,11 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.server.world.ChunkTicketType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,11 +26,14 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import polydungeons.entity.ILivingEntity;
+import polydungeons.entity.IServerWorld;
 import polydungeons.entity.charms.AnchorEntity;
 import polydungeons.entity.SplatEntity;
 import polydungeons.entity.charms.SubstituteEntity;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Mixin(LivingEntity.class)
@@ -76,22 +82,24 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntity 
 
 	@Inject(method = "tryUseTotem(Lnet/minecraft/entity/damage/DamageSource;)Z", at = @At("HEAD"), cancellable = true)
 	private void tryUseTotem(DamageSource source, CallbackInfoReturnable<Boolean> info) {
-		if((Object)this instanceof PlayerEntity) {
-			for (UUID uuid : AnchorEntity.allAnchors) {
-				ServerWorld world = ((ServerWorld) getEntityWorld());
-				AnchorEntity anchor = (AnchorEntity) world.getEntity(uuid);
-				if (anchor == null) continue;
-				if (anchor.getEntityWorld().getDimension() == getEntityWorld().getDimension()) {
-					Vec3d anchorPos = anchor.getPos();
-					this.requestTeleport(anchorPos.x, anchorPos.y - 1.5, anchorPos.z);
-
-					info.setReturnValue(true);
-					this.setHealth(1.0F);
-					this.clearStatusEffects();
+		//noinspection ConstantConditions
+		if((Object)this instanceof PlayerEntity && !world.isClient) {
+			for (Map.Entry<UUID, Vec3d> anchorEntry : (Iterable<Map.Entry<UUID, Vec3d>>) ((IServerWorld) world)
+					.polydungeons_getAnchorPositions().entrySet().stream()
+					.sorted(Comparator.comparingDouble(entry -> squaredDistanceTo(entry.getValue())))::iterator) {
+				Vec3d anchorPos = anchorEntry.getValue();
+				ChunkPos chunkPos = new ChunkPos(MathHelper.floor(anchorPos.x / 16), MathHelper.floor(anchorPos.z / 16));
+				((ServerWorld) world).getChunkManager().addTicket(ChunkTicketType.field_19347, chunkPos, 1, getEntityId());
+				world.getChunk(chunkPos.x, chunkPos.z);
+				Entity anchorEntity = ((ServerWorld) world).getEntity(anchorEntry.getKey());
+				if (anchorEntity instanceof AnchorEntity) {
+					System.out.println("Teleporting to " + anchorPos.x + ", " + (anchorPos.y - 1.5) + ", " + anchorPos.z);
+					requestTeleport(anchorPos.x, anchorPos.y - 1.5, anchorPos.z);
+					setHealth(1);
+					clearStatusEffects();
 					dead = false;
-
-					AnchorEntity.allAnchors.remove(uuid);
-					anchor.kill();
+					anchorEntity.kill();
+					info.setReturnValue(true);
 					return;
 				}
 			}
@@ -100,25 +108,29 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntity 
 
 	@ModifyVariable(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At(value = "HEAD", target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"))
 	public float damage(float amount) {
-		if((Object)this instanceof PlayerEntity) {
-			for (UUID uuid : SubstituteEntity.allSubstitutes) {
-				System.out.println(uuid.toString());
-				ServerWorld world = ((ServerWorld) getEntityWorld());
-				SubstituteEntity substitute = (SubstituteEntity)world.getEntity(uuid);
-				if (substitute == null) continue;
-				System.out.println("Found entity!");
-				if (substitute.getEntityWorld().getDimension() == getEntityWorld().getDimension()) {
-					this.clearStatusEffects();
+		//noinspection ConstantConditions
+		if((Object)this instanceof PlayerEntity && !world.isClient) {
+			for (Map.Entry<UUID, Vec3d> substituteEntry : (Iterable<Map.Entry<UUID, Vec3d>>) ((IServerWorld) world)
+					.polydungeons_getSubstitutePositions().entrySet().stream()
+					.sorted(Comparator.comparingDouble(entry -> squaredDistanceTo(entry.getValue())))::iterator) {
+				System.out.println(substituteEntry.getKey().toString());
+				ChunkPos chunkPos = new ChunkPos(MathHelper.floor(substituteEntry.getValue().x / 16), MathHelper.floor(substituteEntry.getValue().z / 16));
+				((ServerWorld) world).getChunkManager().addTicket(ChunkTicketType.field_19347, chunkPos, 1, getEntityId());
+				world.getChunk(chunkPos.x, chunkPos.z);
+				Entity entity = ((ServerWorld) world).getEntity(substituteEntry.getKey());
+				if (!(entity instanceof SubstituteEntity)) continue;
+				SubstituteEntity substitute = (SubstituteEntity) entity;
 
-					substitute.setCapacity((int)(substitute.getCapacity() - amount));
-					System.out.println("found substitute");
-					if(substitute.getCapacity() <= 0) {
-						SubstituteEntity.allSubstitutes.remove(uuid);
-						((PlayerEntity)(Object)this).sendMessage(new TranslatableText("item.polydungeons.substitute.broken"), true);
-						substitute.kill();
-					}
-					return 0f;
+				System.out.println("Found entity!");
+				this.clearStatusEffects();
+
+				substitute.setCapacity((int)(substitute.getCapacity() - amount));
+				System.out.println("found substitute");
+				if(substitute.getCapacity() <= 0) {
+					((PlayerEntity)(Object)this).sendMessage(new TranslatableText("item.polydungeons.substitute.broken"), true);
+					substitute.kill();
 				}
+				return 0f;
 			}
 		}
 		return amount;

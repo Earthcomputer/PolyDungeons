@@ -10,7 +10,7 @@ public class SubstituteCharmItem extends CharmItem {
     @Override
     boolean createEntity(PlayerEntity creator, Vec3d pos) {
         SubstituteEntity newEntity = new SubstituteEntity(PolyDungeonsEntities.SUBSTITUTE, creator.getEntityWorld());
-        newEntity.setPos(pos.x, pos.y + 1.5, pos.z);
+        newEntity.updatePosition(pos.x, pos.y + 1.5, pos.z);
         creator.getEntityWorld().spawnEntity(newEntity);
         return true;
     }

@@ -5,30 +5,31 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import polydungeons.entity.FloatingItemEntity;
+import polydungeons.entity.IServerWorld;
 import polydungeons.entity.SlingshotProjectileEntity;
 import polydungeons.item.PolyDungeonsItems;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
-public class SubstituteEntity extends FloatingItemEntity {
+public class SubstituteEntity extends CharmEntity {
     public SubstituteEntity(EntityType<SubstituteEntity> type, World world) {
         super(type, world);
-        allSubstitutes.add(this.getUuid());
     }
-
-    public static List<UUID> allSubstitutes = new ArrayList<>();
 
     private static final TrackedData<Integer> CAPACITY = DataTracker.registerData(SlingshotProjectileEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
     @Override
     public ItemStack getItem() {
         return new ItemStack(PolyDungeonsItems.SUBSTITUTE);
+    }
+
+    @Override
+    protected Map<UUID, Vec3d> getPositionList(IServerWorld world) {
+        return world.polydungeons_getSubstitutePositions();
     }
 
     public int getCapacity() {
@@ -42,12 +43,6 @@ public class SubstituteEntity extends FloatingItemEntity {
     @Override
     protected void initDataTracker() {
         dataTracker.startTracking(CAPACITY, 20);
-    }
-
-    @Override
-    public void kill() {
-        allSubstitutes.remove(this.getUuid());
-        super.kill();
     }
 
     @Override

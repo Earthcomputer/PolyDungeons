@@ -6,7 +6,8 @@
     "EnchantmentHelperMixin",
     "EnchantmentMixin",
     "LivingEntityMixin",
-    "MobEntityMixin"
+    "MobEntityMixin",
+    "ServerWorldMixin"
   ],
   "client": [
     "HeldItemRendererMixin",
