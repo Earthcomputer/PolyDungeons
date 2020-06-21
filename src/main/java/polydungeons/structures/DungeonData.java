@@ -114,11 +114,18 @@ public class DungeonData {
                 singlePool("dungeon/caps/small_cap", crackBlackstone), 1
         );
 
-        registerPool("dungeon/rooms", "empty",
-                singlePool("dungeon/rooms/room_7x7_empty", crackBlackstone), 1,
-                singlePool("dungeon/rooms/room_14x7_empty", crackBlackstone), 1,
+        registerPool("dungeon/rooms", "dungeon/caps",
+                singlePool("dungeon/rooms/room_7x7", crackBlackstone), 2,
+                singlePool("dungeon/rooms/room_14x14", crackBlackstone), 1,
+                singlePool("dungeon/rooms/room_collapsed", crackBlackstone), 1,
                 singlePool("dungeon/rooms/staircase", crackBlackstone), 1,
-                singlePool("dungeon/halls/hall_7x7_empty", crackBlackstone), 8
+                singlePool("dungeon/halls/hall_7x7", crackBlackstone), 3
+        );
+
+        registerPool("dungeon/room_features", "empty",
+                singlePool("dungeon/room_features/soul_soil_pile", crackBlackstone), 1,
+                singlePool("dungeon/room_features/loot_basic", crackBlackstone), 2,
+                singlePool("dungeon/room-features/nothing", crackBlackstone), 20
         );
     }
 }
