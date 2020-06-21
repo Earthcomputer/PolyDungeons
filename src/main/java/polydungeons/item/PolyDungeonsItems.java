@@ -4,10 +4,12 @@ import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 import polydungeons.PolyDungeons;
+import polydungeons.entity.PolyDungeonsEntities;
 import polydungeons.item.charms.AnchorCharmItem;
 import polydungeons.item.charms.SubstituteCharmItem;
 
@@ -27,6 +29,9 @@ public class PolyDungeonsItems {
 
     public static JigsawDebugItem JIGSAW_DEBUG;
 
+    public static SpawnEggItem BIGLIN_SPAWN_EGG;
+    public static SpawnEggItem BLAZING_MECHANICAL_SPAWN_EGG;
+    public static SpawnEggItem SLUG_SLIME_SPAWN_EGG;
 
     public static final ItemGroup GROUP = FabricItemGroupBuilder.create(new Identifier(PolyDungeons.MODID, PolyDungeons.MODID))
             .icon(() -> new ItemStack(SLINGSHOT)) // TODO: better icon?
@@ -51,5 +56,9 @@ public class PolyDungeonsItems {
         SUBSTITUTE = registerItem(new SubstituteCharmItem(), "substitute");
 
         JIGSAW_DEBUG = registerItem(new JigsawDebugItem(), "jigsaw_debug_stick");
+
+        BIGLIN_SPAWN_EGG = registerItem(new SpawnEggItem(PolyDungeonsEntities.BIGLIN, 0x804f34, 0xd9d390, new Item.Settings().group(ItemGroup.MISC)), "biglin_spawn_egg");
+        BLAZING_MECHANICAL_SPAWN_EGG = registerItem(new SpawnEggItem(PolyDungeonsEntities.BLAZING_MECHANICAL, 0xf6b201, 0x340000, new Item.Settings().group(ItemGroup.MISC)), "blazing_mechanical_spawn_egg");
+        SLUG_SLIME_SPAWN_EGG = registerItem(new SpawnEggItem(PolyDungeonsEntities.SLUG_SLIME, 0x51a03e, 0xfff87e, new Item.Settings().group(ItemGroup.MISC)), "slug_slime_spawn_egg");
     }
 }
