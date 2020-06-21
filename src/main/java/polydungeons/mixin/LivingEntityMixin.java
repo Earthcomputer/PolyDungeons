@@ -10,12 +10,8 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.server.world.ChunkTicketType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -29,12 +25,10 @@ import polydungeons.entity.ILivingEntity;
 import polydungeons.entity.IServerWorld;
 import polydungeons.entity.charms.AnchorEntity;
 import polydungeons.entity.SplatEntity;
+import polydungeons.entity.charms.CharmHelper;
 import polydungeons.entity.charms.SubstituteEntity;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements ILivingEntity {
@@ -84,24 +78,14 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntity 
 	private void tryUseTotem(DamageSource source, CallbackInfoReturnable<Boolean> info) {
 		//noinspection ConstantConditions
 		if((Object)this instanceof PlayerEntity && !world.isClient) {
-			for (Map.Entry<UUID, Vec3d> anchorEntry : (Iterable<Map.Entry<UUID, Vec3d>>) ((IServerWorld) world)
-					.polydungeons_getAnchorPositions().entrySet().stream()
-					.sorted(Comparator.comparingDouble(entry -> squaredDistanceTo(entry.getValue())))::iterator) {
-				Vec3d anchorPos = anchorEntry.getValue();
-				ChunkPos chunkPos = new ChunkPos(MathHelper.floor(anchorPos.x / 16), MathHelper.floor(anchorPos.z / 16));
-				((ServerWorld) world).getChunkManager().addTicket(ChunkTicketType.field_19347, chunkPos, 1, getEntityId());
-				world.getChunk(chunkPos.x, chunkPos.z);
-				Entity anchorEntity = ((ServerWorld) world).getEntity(anchorEntry.getKey());
-				if (anchorEntity instanceof AnchorEntity) {
-					System.out.println("Teleporting to " + anchorPos.x + ", " + (anchorPos.y - 1.5) + ", " + anchorPos.z);
-					requestTeleport(anchorPos.x, anchorPos.y - 1.5, anchorPos.z);
-					setHealth(1);
-					clearStatusEffects();
-					dead = false;
-					anchorEntity.kill();
-					info.setReturnValue(true);
-					return;
-				}
+			AnchorEntity anchor = CharmHelper.getClosestCharm((ServerWorld) world, ((IServerWorld) world).polydungeons_getAnchorPositions(), this, AnchorEntity.class);
+			if (anchor != null) {
+				requestTeleport(anchor.getX(), anchor.getY(), anchor.getZ());
+				setHealth(1);
+				clearStatusEffects();
+				dead = false;
+				anchor.kill();
+				info.setReturnValue(true);
 			}
 		}
 	}
@@ -110,23 +94,11 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntity 
 	public float damage(float amount) {
 		//noinspection ConstantConditions
 		if((Object)this instanceof PlayerEntity && !world.isClient) {
-			for (Map.Entry<UUID, Vec3d> substituteEntry : (Iterable<Map.Entry<UUID, Vec3d>>) ((IServerWorld) world)
-					.polydungeons_getSubstitutePositions().entrySet().stream()
-					.sorted(Comparator.comparingDouble(entry -> squaredDistanceTo(entry.getValue())))::iterator) {
-				System.out.println(substituteEntry.getKey().toString());
-				ChunkPos chunkPos = new ChunkPos(MathHelper.floor(substituteEntry.getValue().x / 16), MathHelper.floor(substituteEntry.getValue().z / 16));
-				((ServerWorld) world).getChunkManager().addTicket(ChunkTicketType.field_19347, chunkPos, 1, getEntityId());
-				world.getChunk(chunkPos.x, chunkPos.z);
-				Entity entity = ((ServerWorld) world).getEntity(substituteEntry.getKey());
-				if (!(entity instanceof SubstituteEntity)) continue;
-				SubstituteEntity substitute = (SubstituteEntity) entity;
-
-				System.out.println("Found entity!");
+			SubstituteEntity substitute = CharmHelper.getClosestCharm((ServerWorld) world, ((IServerWorld) world).polydungeons_getSubstitutePositions(), this, SubstituteEntity.class);
+			if (substitute != null) {
 				this.clearStatusEffects();
-
 				substitute.setCapacity((int)(substitute.getCapacity() - amount));
-				System.out.println("found substitute");
-				if(substitute.getCapacity() <= 0) {
+				if (substitute.getCapacity() <= 0) {
 					((PlayerEntity)(Object)this).sendMessage(new TranslatableText("item.polydungeons.substitute.broken"), true);
 					substitute.kill();
 				}
