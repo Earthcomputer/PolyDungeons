@@ -124,8 +124,8 @@ public class DungeonData {
 
         registerPool("dungeon/room_features", "empty",
                 singlePool("dungeon/room_features/soul_soil_pile", crackBlackstone), 1,
-                singlePool("dungeon/room_features/loot_basic", crackBlackstone), 2,
-                singlePool("dungeon/room-features/nothing", crackBlackstone), 20
+                singlePool("dungeon/room_features/loot_basic", crackBlackstone), 4,
+                singlePool("dungeon/room_features/nothing", crackBlackstone), 20
         );
     }
 }
