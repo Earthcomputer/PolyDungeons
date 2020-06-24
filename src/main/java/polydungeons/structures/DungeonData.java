@@ -48,7 +48,7 @@ public class DungeonData {
         }
         ImmutableList.Builder<Pair<StructurePoolElement, Integer>> elements = ImmutableList.builder();
         for (int i = 0; i < elementsAndCounts.length; i += 2) {
-            elements.add(new Pair<>((StructurePoolElement) elementsAndCounts[i], (Integer) elementsAndCounts[i + 1]));
+            elements.add(new Pair<>((StructurePoolElement) elementsAndCounts[i], (int)elementsAndCounts[i + 1]));
         }
 
         StructurePoolBasedGenerator.REGISTRY.add(
@@ -117,8 +117,8 @@ public class DungeonData {
         registerPool("dungeon/rooms", "dungeon/caps",
                 singlePool("dungeon/rooms/room_7x7", crackBlackstone), 32,
                 singlePool("dungeon/rooms/room_14x14", crackBlackstone), 16,
-                singlePool("dungeon/rooms/room_collapsed", crackBlackstone), 1,
-                singlePool("dungeon/rooms/room_corrupt", crackBlackstone), 16,
+                singlePool("dungeon/rooms/room_collapsed", crackBlackstone), 16,
+                singlePool("dungeon/rooms/room_corrupt", crackBlackstone), 1,
                 singlePool("dungeon/rooms/staircase", crackBlackstone), 16,
                 singlePool("dungeon/halls/hall_7x7", crackBlackstone), 48
         );
@@ -127,6 +127,7 @@ public class DungeonData {
                 singlePool("dungeon/room_features/soul_soil_pile", crackBlackstone), 1,
                 singlePool("dungeon/room_features/loot_basic", crackBlackstone), 4,
                 singlePool("dungeon/room_features/cage_room", crackBlackstone), 4,
+                singlePool("dungeon/room_features/end_room", crackBlackstone), 1,
                 singlePool("dungeon/room_features/nothing", crackBlackstone), 20
         );
     }
