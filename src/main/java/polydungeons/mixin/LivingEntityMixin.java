@@ -102,16 +102,13 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntity 
 	public float damage(float amount) {
 		if((Object)this instanceof PlayerEntity) {
 			for (UUID uuid : SubstituteEntity.allSubstitutes) {
-				System.out.println(uuid.toString());
 				ServerWorld world = ((ServerWorld) getEntityWorld());
 				SubstituteEntity substitute = (SubstituteEntity)world.getEntity(uuid);
 				if (substitute == null) continue;
-				System.out.println("Found entity!");
 				if (substitute.getEntityWorld().getDimension() == getEntityWorld().getDimension()) {
 					this.clearStatusEffects();
 
 					substitute.setCapacity((int)(substitute.getCapacity() - amount));
-					System.out.println("found substitute");
 					if(substitute.getCapacity() <= 0) {
 						SubstituteEntity.allSubstitutes.remove(uuid);
 						((PlayerEntity)(Object)this).sendMessage(new TranslatableText("item.polydungeons.substitute.broken"), true);
