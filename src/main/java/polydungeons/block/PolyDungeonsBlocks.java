@@ -17,6 +17,8 @@ public class PolyDungeonsBlocks {
 
     public static SamplerRelicBlock SAMPLER_RELIC;
 
+    public static DecorativeEndBlock END_BLOCK;
+
     private static <T extends Block> T registerBlock(T block, String id) {
         Registry.register(Registry.BLOCK, new Identifier(PolyDungeons.MODID, id), block);
         BlockItem itemBlock = new BlockItem(block, new Item.Settings().group(PolyDungeonsItems.GROUP));
@@ -31,5 +33,7 @@ public class PolyDungeonsBlocks {
         DUNGEON_DOOR_OPENER = registerBlock(new DungeonDoorOpenerBlock(), "dungeon_door_opener");
 
         SAMPLER_RELIC = registerBlock(new SamplerRelicBlock(), "sampler_relic");
+
+        END_BLOCK = registerBlock(new DecorativeEndBlock(), "end_block");
     }
 }

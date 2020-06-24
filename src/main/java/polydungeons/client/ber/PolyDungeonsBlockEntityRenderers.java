@@ -8,6 +8,8 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
+import net.minecraft.client.render.block.entity.EndGatewayBlockEntityRenderer;
+import net.minecraft.client.render.block.entity.EndPortalBlockEntityRenderer;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.resource.ResourceManager;
 import polydungeons.block.entity.PolyDungeonsBlockEntities;
@@ -32,5 +34,6 @@ public class PolyDungeonsBlockEntityRenderers {
     public static void init() {
         ModelLoadingRegistry.INSTANCE.registerAppender(PolyDungeonsBlockEntityRenderers::onModelBakeEvent);
         register(PolyDungeonsBlockEntities.SAMPLER_RELIC, SamplerRelicRenderer::new);
+        register(PolyDungeonsBlockEntities.END_BLOCK, SolidEndPortalBlockEntityRenderer::new);
     }
 }
