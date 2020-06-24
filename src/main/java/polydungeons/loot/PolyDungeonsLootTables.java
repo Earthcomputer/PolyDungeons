@@ -13,13 +13,13 @@ public class PolyDungeonsLootTables {
 
 	public static void registerAll() {
 		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, supplier, setter) -> {
-			if (SLIME_ENTITY.equals(id)) {
+			/*if (SLIME_ENTITY.equals(id)) {
 				FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
 						.rolls(BinomialLootTableRange.create(1, 0.025f))
 						.withEntry(ItemEntry.builder(PolyDungeonsItems.SLIMY_ESSENCE).build());
 
 				supplier.pool(poolBuilder);
-			}
+			}*/
 		});
 	}
 }
