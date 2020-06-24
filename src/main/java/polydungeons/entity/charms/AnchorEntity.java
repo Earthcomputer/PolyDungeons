@@ -1,42 +1,20 @@
 package polydungeons.entity.charms;
 
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import polydungeons.entity.FloatingItemEntity;
+import polydungeons.entity.IServerWorld;
 import polydungeons.item.PolyDungeonsItems;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
-public class AnchorEntity extends FloatingItemEntity {
+public class AnchorEntity extends CharmEntity {
     public static final float RADIUS = 100;
-
-    public static List<UUID> allAnchors = new ArrayList<>();
 
     public AnchorEntity(EntityType<?> type, World world) {
         super(type, world);
-        allAnchors.add(getUuid());
-    }
-
-    @Override
-    protected void initDataTracker() {
-
-    }
-
-    @Override
-    protected void readCustomDataFromTag(CompoundTag tag) {
-
-    }
-
-    @Override
-    protected void writeCustomDataToTag(CompoundTag tag) {
-
     }
 
     @Override
@@ -49,13 +27,12 @@ public class AnchorEntity extends FloatingItemEntity {
     }
 
     @Override
-    public void kill() {
-        allAnchors.remove(getUuid());
-        super.kill();
+    public ItemStack getItem() {
+        return new ItemStack(PolyDungeonsItems.ANCHOR);
     }
 
     @Override
-    public ItemStack getItem() {
-        return new ItemStack(PolyDungeonsItems.ANCHOR);
+    protected Map<UUID, Vec3d> getPositionList(IServerWorld world) {
+        return world.polydungeons_getAnchorPositions();
     }
 }

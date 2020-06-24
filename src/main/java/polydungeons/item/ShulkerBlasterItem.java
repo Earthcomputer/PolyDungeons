@@ -66,7 +66,7 @@ public class ShulkerBlasterItem extends RangedWeaponItem {
 			LivingEntity target = getTarget(player, entities);
 			((ILivingEntity) target).incrementTimesTargeted();
 			ShulkerBulletEntity entity = new ShulkerBulletEntity(world, player, target, Direction.Axis.Y);
-			entity.setPos(player.getX(), player.getY() + 1, player.getZ());
+			entity.updatePosition(player.getX(), player.getY() + 1, player.getZ());
 
 			Vec3d playerRotation = player.getRotationVector();
 

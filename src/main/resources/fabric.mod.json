@@ -32,7 +32,7 @@
     "fabricloader": ">=0.8.8+build.201",
     "fabric": "*",
     "minecraft": "1.16-rc.9",
-    "libstructure": ">=1.0",
+    "libstructure": ">=1.2",
     "spinnery": ">=3.0.37",
     "qcommon-croco": ">=2.1.3"
   }

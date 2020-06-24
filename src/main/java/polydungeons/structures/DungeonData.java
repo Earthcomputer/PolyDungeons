@@ -67,7 +67,7 @@ public class DungeonData {
     }
 
     public static void init() {
-        LibStructure.registerStructureWithPool(
+        LibStructure.registerStructure(
                 new Identifier(PolyDungeons.MODID, "nether_dungeon"),
                 NETHER_DUNGEON,
                 GenerationStep.Feature.UNDERGROUND_DECORATION,

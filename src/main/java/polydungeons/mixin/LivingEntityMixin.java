@@ -12,7 +12,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -23,12 +22,13 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import polydungeons.entity.ILivingEntity;
+import polydungeons.entity.IServerWorld;
 import polydungeons.entity.charms.AnchorEntity;
 import polydungeons.entity.SplatEntity;
+import polydungeons.entity.charms.CharmHelper;
 import polydungeons.entity.charms.SubstituteEntity;
 
 import java.util.List;
-import java.util.UUID;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements ILivingEntity {
@@ -76,46 +76,33 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntity 
 
 	@Inject(method = "tryUseTotem(Lnet/minecraft/entity/damage/DamageSource;)Z", at = @At("HEAD"), cancellable = true)
 	private void tryUseTotem(DamageSource source, CallbackInfoReturnable<Boolean> info) {
-		if((Object)this instanceof PlayerEntity) {
-			for (UUID uuid : AnchorEntity.allAnchors) {
-				ServerWorld world = ((ServerWorld) getEntityWorld());
-				AnchorEntity anchor = (AnchorEntity) world.getEntity(uuid);
-				if (anchor == null) continue;
-				if (anchor.getEntityWorld().getDimension() == getEntityWorld().getDimension()) {
-					Vec3d anchorPos = anchor.getPos();
-					this.requestTeleport(anchorPos.x, anchorPos.y - 1.5, anchorPos.z);
-
-					info.setReturnValue(true);
-					this.setHealth(1.0F);
-					this.clearStatusEffects();
-					dead = false;
-
-					AnchorEntity.allAnchors.remove(uuid);
-					anchor.kill();
-					return;
-				}
+		//noinspection ConstantConditions
+		if((Object)this instanceof PlayerEntity && !world.isClient) {
+			AnchorEntity anchor = CharmHelper.getClosestCharm((ServerWorld) world, ((IServerWorld) world).polydungeons_getAnchorPositions(), this, AnchorEntity.class);
+			if (anchor != null) {
+				requestTeleport(anchor.getX(), anchor.getY(), anchor.getZ());
+				setHealth(1);
+				clearStatusEffects();
+				dead = false;
+				anchor.kill();
+				info.setReturnValue(true);
 			}
 		}
 	}
 
 	@ModifyVariable(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At(value = "HEAD", target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"))
 	public float damage(float amount) {
-		if((Object)this instanceof PlayerEntity) {
-			for (UUID uuid : SubstituteEntity.allSubstitutes) {
-				ServerWorld world = ((ServerWorld) getEntityWorld());
-				SubstituteEntity substitute = (SubstituteEntity)world.getEntity(uuid);
-				if (substitute == null) continue;
-				if (substitute.getEntityWorld().getDimension() == getEntityWorld().getDimension()) {
-					this.clearStatusEffects();
-
-					substitute.setCapacity((int)(substitute.getCapacity() - amount));
-					if(substitute.getCapacity() <= 0) {
-						SubstituteEntity.allSubstitutes.remove(uuid);
-						((PlayerEntity)(Object)this).sendMessage(new TranslatableText("item.polydungeons.substitute.broken"), true);
-						substitute.kill();
-					}
-					return 0f;
+		//noinspection ConstantConditions
+		if((Object)this instanceof PlayerEntity && !world.isClient) {
+			SubstituteEntity substitute = CharmHelper.getClosestCharm((ServerWorld) world, ((IServerWorld) world).polydungeons_getSubstitutePositions(), this, SubstituteEntity.class);
+			if (substitute != null) {
+				this.clearStatusEffects();
+				substitute.setCapacity((int)(substitute.getCapacity() - amount));
+				if (substitute.getCapacity() <= 0) {
+					((PlayerEntity)(Object)this).sendMessage(new TranslatableText("item.polydungeons.substitute.broken"), true);
+					substitute.kill();
 				}
+				return 0f;
 			}
 		}
 		return amount;
