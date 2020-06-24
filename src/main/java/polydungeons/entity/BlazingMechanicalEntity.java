@@ -15,7 +15,7 @@ public class BlazingMechanicalEntity extends BlazeEntity {
     public static DefaultAttributeContainer.Builder createBlazeAttributes() {
         DefaultAttributeContainer.Builder builder = BlazeEntity.createBlazeAttributes();
         builder.add(EntityAttributes.GENERIC_ARMOR, 4.0d);
-        builder.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5d);
+        builder.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3d);
         return builder;
     }
 }
