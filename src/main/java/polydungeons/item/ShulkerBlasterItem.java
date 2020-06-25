@@ -39,7 +39,7 @@ public class ShulkerBlasterItem extends RangedWeaponItem implements Vanishable {
 	@Override
 	public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
 		super.usageTick(world, user, stack, remainingUseTicks);
-		if(remainingUseTicks % 4 == 0) {
+		if(remainingUseTicks % 10 == 0) {
 			if (!world.isClient) {
 				if (user instanceof PlayerEntity) {
 					if(((PlayerEntity) user).isCreative()) {
@@ -47,38 +47,37 @@ public class ShulkerBlasterItem extends RangedWeaponItem implements Vanishable {
 					} else {
 						ItemStack type = user.getArrowType(stack);
 						if(!type.isEmpty()) {
-							shoot(world, (PlayerEntity) user, stack);
-							type.decrement((int) (Math.random() * 2));
+							if (shoot(world, (PlayerEntity) user, stack)) {
+								type.decrement((int) (Math.random() * 2));
+							}
 						}
 					}
 				}
 			}
 		}
 	}
-	public void shoot(World world, PlayerEntity player, ItemStack stack) {
+	public boolean shoot(World world, PlayerEntity player, ItemStack stack) {
 		Box box = new Box(
 				player.getX() - 24, player.getY() - 24, player.getZ() - 24,
 				player.getX() + 24, player.getY() + 24, player.getZ() + 24
 		);
-		List<LivingEntity> entities = world.getEntities(LivingEntity.class, box, (Predicate<Entity>) entity -> {
-			if (entity instanceof PlayerEntity)
-				return false;
-			if (entity instanceof LivingEntity)
-				return true;
+		List<LivingEntity> entities = world.getEntities(LivingEntity.class, box, entity -> entity != player);
+		if (entities.isEmpty()) {
 			return false;
-		});
-		if (!entities.isEmpty()) {
-			LivingEntity target = getTarget(player, entities);
-			((ILivingEntity) target).incrementTimesTargeted();
-			ShulkerBulletEntity entity = new ShulkerBulletEntity(world, player, target, Direction.Axis.Y);
-			entity.updatePosition(player.getX(), player.getY() + 1, player.getZ());
-
-			Vec3d playerRotation = player.getRotationVector();
-
-			entity.addVelocity(playerRotation.x, playerRotation.y, playerRotation.z);
-			world.spawnEntity(entity);
-			world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_SHULKER_SHOOT, SoundCategory.PLAYERS, 1.0f, 1.0f);
 		}
+
+		LivingEntity target = getTarget(player, entities);
+		((ILivingEntity) target).incrementTimesTargeted();
+		ShulkerBulletEntity entity = new ShulkerBulletEntity(world, player, target, Direction.Axis.Y);
+		entity.updatePosition(player.getX(), player.getY() + 1, player.getZ());
+
+		Vec3d playerRotation = player.getRotationVector();
+
+		entity.addVelocity(playerRotation.x, playerRotation.y, playerRotation.z);
+		world.spawnEntity(entity);
+		world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_SHULKER_SHOOT, SoundCategory.PLAYERS, 1.0f, 1.0f);
+
+		return true;
 	}
 
 	public LivingEntity getTarget(PlayerEntity player, List<LivingEntity> entities) {
