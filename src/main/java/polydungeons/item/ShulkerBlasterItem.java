@@ -4,10 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ShulkerBulletEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.RangedWeaponItem;
+import net.minecraft.item.*;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
@@ -22,7 +19,7 @@ import polydungeons.entity.ILivingEntity;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class ShulkerBlasterItem extends RangedWeaponItem {
+public class ShulkerBlasterItem extends RangedWeaponItem implements Vanishable {
 
 	public ShulkerBlasterItem(Item.Settings settings) {
 		super(settings);
@@ -45,7 +42,15 @@ public class ShulkerBlasterItem extends RangedWeaponItem {
 		if(remainingUseTicks % 4 == 0) {
 			if (!world.isClient) {
 				if (user instanceof PlayerEntity) {
-					shoot(world, (PlayerEntity)user, stack);
+					if(((PlayerEntity) user).isCreative()) {
+						shoot(world, (PlayerEntity) user, stack);
+					} else {
+						ItemStack type = user.getArrowType(stack);
+						if(!type.isEmpty()) {
+							shoot(world, (PlayerEntity) user, stack);
+							type.decrement((int) (Math.random() * 2));
+						}
+					}
 				}
 			}
 		}
@@ -98,7 +103,7 @@ public class ShulkerBlasterItem extends RangedWeaponItem {
 
 	@Override
 	public Predicate<ItemStack> getProjectiles() {
-		return itemStack -> itemStack.isItemEqual(new ItemStack(Items.CHORUS_FRUIT));
+		return itemStack -> itemStack.isItemEqual(new ItemStack(Items.POPPED_CHORUS_FRUIT));
 	}
 
 	@Override
