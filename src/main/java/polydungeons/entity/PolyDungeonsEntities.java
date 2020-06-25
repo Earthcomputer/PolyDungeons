@@ -13,11 +13,11 @@ import polydungeons.entity.charms.AnchorEntity;
 import polydungeons.entity.charms.SubstituteEntity;
 
 public class PolyDungeonsEntities {
-    public static final EntityType<BiglinEntity> BIGLIN = register(
+    /*public static final EntityType<BiglinEntity> BIGLIN = register(
             "biglin",
             FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, BiglinEntity::new)
             .dimensions(EntityDimensions.fixed(0.75f, 2f)).build()
-    );
+    );*/
 
     public static final EntityType<BlazingMechanicalEntity> BLAZING_MECHANICAL = register(
             "blazing_mechanical",
@@ -66,6 +66,6 @@ public class PolyDungeonsEntities {
         FabricDefaultAttributeRegistry.register(BLAZING_MECHANICAL, BlazingMechanicalEntity.createBlazeAttributes());
         FabricDefaultAttributeRegistry.register(SLUG_SLIME, SlugSlimeEntity.createSlugSlimeAttributes());
 
-        FabricDefaultAttributeRegistry.register(BIGLIN, BiglinEntity.createBiglinAttributes());
+        //FabricDefaultAttributeRegistry.register(BIGLIN, BiglinEntity.createBiglinAttributes());
     }
 }

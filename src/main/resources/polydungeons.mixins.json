@@ -10,6 +10,7 @@
     "ServerWorldMixin"
   ],
   "client": [
+    "BuiltinModelItemRendererMixin",
     "HeldItemRendererMixin",
     "ModelPartAccessor",
     "ModelPartCuboidAccessor",

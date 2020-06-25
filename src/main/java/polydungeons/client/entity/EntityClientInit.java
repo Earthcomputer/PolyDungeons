@@ -15,7 +15,7 @@ import java.util.function.Function;
 @Environment(EnvType.CLIENT)
 public class EntityClientInit {
     public static void registerAll() {
-        register(PolyDungeonsEntities.BIGLIN, BiglinEntityRenderer::new);
+        //register(PolyDungeonsEntities.BIGLIN, BiglinEntityRenderer::new);
 
         register(PolyDungeonsEntities.BLAZING_MECHANICAL, BlazingMechanicalEntityRenderer::new);
         register(PolyDungeonsEntities.ANCHOR, CharmEntityRenderer::new);
