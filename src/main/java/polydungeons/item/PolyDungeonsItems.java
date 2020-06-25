@@ -18,7 +18,7 @@ public class PolyDungeonsItems {
     //public static EssenceItem SLIMY_ESSENCE;
 
     //public static FireworkLauncherItem FIREWORK_LAUNCHER;
-    //public static ShulkerBlasterItem SHULKER_BLASTER;
+    public static ShulkerBlasterItem SHULKER_BLASTER;
     public static SlingshotItem SLINGSHOT;
 
     public static AnchorCharmItem ANCHOR;
@@ -46,7 +46,7 @@ public class PolyDungeonsItems {
         //SLIMY_ESSENCE = registerItem(new EssenceItem(new Item.Settings().maxCount(16).rarity(Rarity.RARE).group(GROUP)), "slimy_essence");
 
         //FIREWORK_LAUNCHER = registerItem(new FireworkLauncherItem(new Item.Settings().maxCount(1).rarity(Rarity.RARE).group(GROUP)), "firework_launcher");
-        //SHULKER_BLASTER = registerItem(new ShulkerBlasterItem(new Item.Settings().maxCount(1).rarity(Rarity.EPIC).group(GROUP)), "shulker_blaster");
+        SHULKER_BLASTER = registerItem(new ShulkerBlasterItem(new Item.Settings().maxCount(1).rarity(Rarity.EPIC).group(GROUP)), "shulker_blaster");
         SLINGSHOT = registerItem(new SlingshotItem(new Item.Settings().maxDamage(384).group(GROUP)), "slingshot");
 
         SPEAR = registerItem(new SpearItem(new Item.Settings().group(GROUP)), "spear");
