@@ -7,7 +7,9 @@
     "EnchantmentMixin",
     "LivingEntityMixin",
     "MobEntityMixin",
-    "ServerWorldMixin"
+    "ServerWorldMixin",
+    "StructureBlockBlockEntityMixin",
+    "StructureMixin"
   ],
   "client": [
     "BuiltinModelItemRendererMixin",

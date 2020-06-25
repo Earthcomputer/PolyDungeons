@@ -38,6 +38,8 @@ public class DungeonData {
     public static final ConfiguredStructureFeature<StructurePoolFeatureConfig, ? extends StructureFeature<StructurePoolFeatureConfig>> NETHER_DUNGEON_FEATURE = NETHER_DUNGEON.configure(new StructurePoolFeatureConfig(new Identifier(PolyDungeons.MODID, "dungeon/rooms"), 8));
     public static final StructurePieceType NETHER_DUNGEON_PIECE = registerPieceType(NetherDungeonFeature.Piece::new, "nether_dungeon");
 
+    public static boolean placingByStructureBlock = false;
+
     private static StructurePieceType registerPieceType(StructurePieceType type, String id) {
         return Registry.register(Registry.STRUCTURE_PIECE, new Identifier(PolyDungeons.MODID, id), type);
     }
