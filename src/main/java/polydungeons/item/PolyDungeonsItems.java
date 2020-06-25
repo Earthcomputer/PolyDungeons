@@ -15,10 +15,10 @@ import polydungeons.item.charms.SubstituteCharmItem;
 
 public class PolyDungeonsItems {
 
-    public static EssenceItem SLIMY_ESSENCE;
+    //public static EssenceItem SLIMY_ESSENCE;
 
-    public static FireworkLauncherItem FIREWORK_LAUNCHER;
-    public static ShulkerBlasterItem SHULKER_BLASTER;
+    //public static FireworkLauncherItem FIREWORK_LAUNCHER;
+    //public static ShulkerBlasterItem SHULKER_BLASTER;
     public static SlingshotItem SLINGSHOT;
 
     public static AnchorCharmItem ANCHOR;
@@ -43,10 +43,10 @@ public class PolyDungeonsItems {
     }
 
     public static void registerAll() {
-        SLIMY_ESSENCE = registerItem(new EssenceItem(new Item.Settings().maxCount(16).rarity(Rarity.RARE).group(GROUP)), "slimy_essence");
+        //SLIMY_ESSENCE = registerItem(new EssenceItem(new Item.Settings().maxCount(16).rarity(Rarity.RARE).group(GROUP)), "slimy_essence");
 
-        FIREWORK_LAUNCHER = registerItem(new FireworkLauncherItem(new Item.Settings().maxCount(1).rarity(Rarity.RARE).group(GROUP)), "firework_launcher");
-        SHULKER_BLASTER = registerItem(new ShulkerBlasterItem(new Item.Settings().maxCount(1).rarity(Rarity.EPIC).group(GROUP)), "shulker_blaster");
+        //FIREWORK_LAUNCHER = registerItem(new FireworkLauncherItem(new Item.Settings().maxCount(1).rarity(Rarity.RARE).group(GROUP)), "firework_launcher");
+        //SHULKER_BLASTER = registerItem(new ShulkerBlasterItem(new Item.Settings().maxCount(1).rarity(Rarity.EPIC).group(GROUP)), "shulker_blaster");
         SLINGSHOT = registerItem(new SlingshotItem(new Item.Settings().maxDamage(384).group(GROUP)), "slingshot");
 
         SPEAR = registerItem(new SpearItem(new Item.Settings().group(GROUP)), "spear");
@@ -57,7 +57,7 @@ public class PolyDungeonsItems {
 
         JIGSAW_DEBUG = registerItem(new JigsawDebugItem(), "jigsaw_debug_stick");
 
-        BIGLIN_SPAWN_EGG = registerItem(new SpawnEggItem(PolyDungeonsEntities.BIGLIN, 0x804f34, 0xd9d390, new Item.Settings().group(ItemGroup.MISC)), "biglin_spawn_egg");
+        //BIGLIN_SPAWN_EGG = registerItem(new SpawnEggItem(PolyDungeonsEntities.BIGLIN, 0x804f34, 0xd9d390, new Item.Settings().group(ItemGroup.MISC)), "biglin_spawn_egg");
         BLAZING_MECHANICAL_SPAWN_EGG = registerItem(new SpawnEggItem(PolyDungeonsEntities.BLAZING_MECHANICAL, 0xf6b201, 0x340000, new Item.Settings().group(ItemGroup.MISC)), "blazing_mechanical_spawn_egg");
         SLUG_SLIME_SPAWN_EGG = registerItem(new SpawnEggItem(PolyDungeonsEntities.SLUG_SLIME, 0x51a03e, 0xfff87e, new Item.Settings().group(ItemGroup.MISC)), "slug_slime_spawn_egg");
     }
