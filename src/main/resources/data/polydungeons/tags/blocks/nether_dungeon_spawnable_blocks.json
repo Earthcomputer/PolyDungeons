@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:blackstone",
+    "minecraft:polished_blackstone",
+    "minecraft:polished_blackstone_bricks",
+    "minecraft:cracked_polished_blackstone_bricks",
+    "polydungeons:hardened_red_nether_bricks",
+    "polydungeons:hardened_cracked_red_nether_bricks"
+  ]
+}

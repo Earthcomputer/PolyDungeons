@@ -10,6 +10,8 @@ import polydungeons.loot.PolyDungeonsLootTables;
 import polydungeons.network.PolyDungeonsServerNetwork;
 import polydungeons.sound.PolyDungeonsSoundEvents;
 import polydungeons.structures.DungeonData;
+import polydungeons.tag.PolyDungeonsBlockTags;
+import polydungeons.tag.PolyDungeonsItemTags;
 
 public class PolyDungeons implements ModInitializer {
     public static final String MODID = "polydungeons";
@@ -27,5 +29,8 @@ public class PolyDungeons implements ModInitializer {
         PolyDungeonsLootTables.registerAll();
 
         DungeonData.init();
+
+        PolyDungeonsBlockTags.register();
+        PolyDungeonsItemTags.register();
     }
 }

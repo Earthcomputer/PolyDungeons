@@ -1,6 +1,8 @@
 package polydungeons.structures;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
+import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.structure.PoolStructurePiece;
 import net.minecraft.structure.StructureManager;
@@ -14,8 +16,21 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.StructureFeature;
 import net.minecraft.world.gen.feature.StructurePoolFeatureConfig;
+import polydungeons.entity.PolyDungeonsEntities;
+
+import java.util.List;
 
 public class NetherDungeonFeature extends StructureFeature<StructurePoolFeatureConfig> {
+
+    private static final List<Biome.SpawnEntry> MONSTER_SPAWNS = ImmutableList.of(
+            new Biome.SpawnEntry(EntityType.PIGLIN, 1, 1, 3),
+            new Biome.SpawnEntry(EntityType.ZOMBIFIED_PIGLIN, 1, 1, 3),
+            new Biome.SpawnEntry(EntityType.BLAZE, 10, 1, 4),
+            new Biome.SpawnEntry(EntityType.WITHER_SKELETON, 6, 1, 4),
+            new Biome.SpawnEntry(PolyDungeonsEntities.BLAZING_MECHANICAL, 10, 1, 4),
+            new Biome.SpawnEntry(PolyDungeonsEntities.SLUG_SLIME, 6, 1, 1)
+    );
+
     public NetherDungeonFeature(Codec<StructurePoolFeatureConfig> codec) {
         super(codec);
     }
@@ -23,6 +38,11 @@ public class NetherDungeonFeature extends StructureFeature<StructurePoolFeatureC
     @Override
     public StructureStartFactory<StructurePoolFeatureConfig> getStructureStartFactory() {
         return Start::new;
+    }
+
+    @Override
+    public List<Biome.SpawnEntry> getMonsterSpawns() {
+        return MONSTER_SPAWNS;
     }
 
     public static class Start extends VillageStructureStart<StructurePoolFeatureConfig> {

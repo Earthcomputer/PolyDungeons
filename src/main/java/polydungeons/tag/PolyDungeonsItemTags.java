@@ -8,4 +8,8 @@ import polydungeons.PolyDungeons;
 
 public class PolyDungeonsItemTags {
 	public static final Tag<Item> FIREWORK_LAUNCHER_AMMO = TagRegistry.item(new Identifier(PolyDungeons.MODID, "firework_launcher_ammo"));
+
+	public static void register() {
+		// load class
+	}
 }

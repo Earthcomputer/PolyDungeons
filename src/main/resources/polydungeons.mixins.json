@@ -8,6 +8,7 @@
     "LivingEntityMixin",
     "MobEntityMixin",
     "ServerWorldMixin",
+    "SpawnHelperMixin",
     "StructureBlockBlockEntityMixin",
     "StructureMixin"
   ],
