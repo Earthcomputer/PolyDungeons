@@ -1,7 +1,8 @@
 package polydungeons.block.entity;
 
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.block.Block;
 import net.minecraft.block.entity.EndPortalBlockEntity;
 import net.minecraft.util.math.Direction;
 
@@ -10,9 +11,12 @@ public class DecorativeEndBlockEntity extends EndPortalBlockEntity {
         super(PolyDungeonsBlockEntities.END_BLOCK);
     }
 
+    @Environment(EnvType.CLIENT)
     @Override
     public boolean shouldDrawSide(Direction direction) {
-        return true;
+        // Cull faces that are not visible
+        assert world != null;
+        return Block.shouldDrawSide(getCachedState(), world, getPos(), direction);
     }
 
 
