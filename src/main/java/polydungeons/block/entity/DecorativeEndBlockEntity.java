@@ -16,6 +16,7 @@ public class DecorativeEndBlockEntity extends EndPortalBlockEntity {
     public boolean shouldDrawSide(Direction direction) {
         // Cull faces that are not visible
         assert world != null;
+        // TODO: cache these values
         return Block.shouldDrawSide(getCachedState(), world, getPos(), direction);
     }
 
