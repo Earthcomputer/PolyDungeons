@@ -14,6 +14,7 @@
   ],
   "client": [
     "BuiltinModelItemRendererMixin",
+    "ClientWorldMixin",
     "HeldItemRendererMixin",
     "ModelPartAccessor",
     "ModelPartCuboidAccessor",
