@@ -52,7 +52,9 @@ public abstract class CharmEntity extends Entity {
     @Override
     public void kill() {
         super.kill();
-        getPositionList((IServerWorld) world).remove(getUuid());
+        if (!world.isClient) {
+            getPositionList((IServerWorld) world).remove(getUuid());
+        }
     }
 
     @Override
