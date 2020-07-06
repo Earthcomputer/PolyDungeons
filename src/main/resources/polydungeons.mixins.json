@@ -14,10 +14,12 @@
   ],
   "client": [
     "BuiltinModelItemRendererMixin",
+    "ClientWorldMixin",
     "HeldItemRendererMixin",
     "ModelPartAccessor",
     "ModelPartCuboidAccessor",
-    "PlayerEntityRendererMixin"
+    "PlayerEntityRendererMixin",
+    "WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
