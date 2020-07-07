@@ -7,6 +7,7 @@
     "EnchantmentMixin",
     "LivingEntityMixin",
     "MobEntityMixin",
+    "ServerChunkManagerMixin",
     "ServerWorldMixin",
     "SpawnHelperMixin",
     "StructureBlockBlockEntityMixin",
