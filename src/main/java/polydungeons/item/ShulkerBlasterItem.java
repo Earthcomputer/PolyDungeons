@@ -1,6 +1,5 @@
 package polydungeons.item;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ShulkerBulletEntity;
@@ -21,6 +20,8 @@ import java.util.function.Predicate;
 
 public class ShulkerBlasterItem extends RangedWeaponItem implements Vanishable {
 
+	private static final int FIRE_RATE = 10;
+
 	public ShulkerBlasterItem(Item.Settings settings) {
 		super(settings);
 	}
@@ -39,16 +40,17 @@ public class ShulkerBlasterItem extends RangedWeaponItem implements Vanishable {
 	@Override
 	public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
 		super.usageTick(world, user, stack, remainingUseTicks);
-		if(remainingUseTicks % 10 == 0) {
+		int usedTicks = getMaxUseTime(stack) - remainingUseTicks;
+		if(usedTicks % FIRE_RATE == FIRE_RATE - 1) {
 			if (!world.isClient) {
 				if (user instanceof PlayerEntity) {
-					if(((PlayerEntity) user).isCreative()) {
+					if(((PlayerEntity) user).abilities.creativeMode) {
 						shoot(world, (PlayerEntity) user, stack);
 					} else {
-						ItemStack type = user.getArrowType(stack);
-						if(!type.isEmpty()) {
+						ItemStack ammo = user.getArrowType(stack);
+						if(!ammo.isEmpty() && getProjectiles().test(ammo)) {
 							if (shoot(world, (PlayerEntity) user, stack)) {
-								type.decrement((int) (Math.random() * 2));
+								ammo.decrement(user.getRandom().nextInt(2));
 							}
 						}
 					}
@@ -61,7 +63,7 @@ public class ShulkerBlasterItem extends RangedWeaponItem implements Vanishable {
 				player.getX() - 24, player.getY() - 24, player.getZ() - 24,
 				player.getX() + 24, player.getY() + 24, player.getZ() + 24
 		);
-		List<LivingEntity> entities = world.getEntities(LivingEntity.class, box, entity -> entity != player);
+		List<LivingEntity> entities = world.getEntities(LivingEntity.class, box, entity -> entity != player && player.canSee(entity));
 		if (entities.isEmpty()) {
 			return false;
 		}
